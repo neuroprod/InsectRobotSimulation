@@ -5,7 +5,7 @@
 .bash_history
 .viminfo
 
-assets/screen
+assets/screens
 
 # User-specific files
 *.suo
@@ -131,10 +131,7 @@ node_modules
 
 *.csv
 *.#csv
-Kiosk2_research/assets/content/
-Kiosk2_research/assets/screenshots/
-Kiosk3_video/assets/content/
-Kiosk3_video/assets/sounds/
+
 assets/screens/1576145102.png
 assets/screens/1576243938.png
 assets/screens/1576243936.png
