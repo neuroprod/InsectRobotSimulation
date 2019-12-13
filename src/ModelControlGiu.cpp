@@ -7,5 +7,5 @@ void ModelControlGui::setup(ModelControl * _control)
 void  ModelControlGui:: show() 
 {
 	ui::ScopedWindow window("Control");
-	if (ui::DragFloat("Camera Theta", &control->rootHeight, 1, 0, 300)) control->isDirty = true;
+	if (ui::DragFloat("body height", &control->rootHeight, 1, 0, 300)) control->isDirty = true;
 }

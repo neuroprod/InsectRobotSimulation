@@ -80,23 +80,29 @@ void InsectRobotSimulationApp::buildRobot()
 	root->removeAllChildren();
 
 	frontRight = Leg::create();
-	frontRight->setup("FR", root, vec3(70, 0, 80), 3.1415f / 4.f, false, &config);
+	frontRight->setup("FR", root, config.frontLegStart, config.frontLegAngle, false, &config);
 
 	middleRight = Leg::create();
-	middleRight->setup("MR", root, vec3(0, 0, 100), 0, false, &config);
+	middleRight->setup("MR", root, config.middleLegStart, config.middleLegAngle, false, &config);
 
 	backRight = Leg::create();
-	backRight->setup("BR", root, vec3(-70, 0, 80), -3.1415f / 4.f, false, &config);
+	backRight->setup("BR", root, config.backLegStart, config.backLegAngle, false, &config);
 
 
 	frontLeft = Leg::create();
-	frontLeft->setup("FL", root, vec3(70, 0, -80), 3.1415f / 4.f * 3, true, &config);
+	vec3 frontstart = config.frontLegStart;
+	frontstart.z *= -1;
+	frontLeft->setup("FL", root, frontstart, -config.frontLegAngle +3.1415, true, &config);
 
+	vec3 middlestart = config.middleLegStart;
+	middlestart.z *= -1;
 	middleLeft = Leg::create();
-	middleLeft->setup("ML", root, vec3(0, 0, -100), 3.1415f, true, &config);
+	middleLeft->setup("ML", root, middlestart, -config.middleLegAngle + 3.1415, true, &config);
 
+	vec3 backstart = config.backLegStart;
+	backstart.z *= -1;
 	backLeft = Leg::create();
-	backLeft->setup("BL", root, vec3(-70, 0, -80), -3.1415f / 4.f * 3, true, &config);
+	backLeft->setup("BL", root, backstart, -config.backLegAngle + 3.1415, true, &config);
 
 }
 void InsectRobotSimulationApp::keyDown(KeyEvent event)
