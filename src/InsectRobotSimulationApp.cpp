@@ -5,7 +5,10 @@
 #include "Leg.h"
 #include "DebugRenderer.h"
 #include "MeshPool.h"
-
+#include "ModelConfig.h"
+#include "ModelConfigGui.h"
+#include "ModelControl.h"
+#include "ModelControlGui.h"
 #include "CinderImGui.h"
 
 using namespace ci;
@@ -15,12 +18,13 @@ using namespace std;
 class InsectRobotSimulationApp : public App {
   public:
 	void setup() override;
-	void mouseDown(MouseEvent event) override;
+
 
 	void keyDown(KeyEvent event) override;
 	void update() override;
 	void draw() override;
-
+	void buildRobot();
+	void updateGui();
 
 	NodeRef root;
 
@@ -32,7 +36,11 @@ class InsectRobotSimulationApp : public App {
 	LegRef middleLeft;
 	LegRef backLeft;
 
+	ModelControl control;
+	ModelControlGui controlGui;
 
+	ModelConfig config;
+	ModelConfigGui configGui;
 
 	DebugRenderer renderer;
 };
@@ -51,38 +59,49 @@ void InsectRobotSimulationApp::setup()
 	ui::GetStyle().ScrollbarRounding = 0.0f;
 
 
-	MP()->setup();
-
-
+	MP()->setup(&config);
 	root = Node::create();
-	root->setBase(vec3(0, 130, 0), vec3(0, 0, 0));
+	root->setBase(vec3(0,control.rootHeight, 0), vec3(0, 0, 0));
 	root->setRotation(0);
 
 
+	buildRobot();
+
+	
+	renderer.setup(root);
+	controlGui.setup(&control);
+	configGui.setup(&config);
+
+
+}
+void InsectRobotSimulationApp::buildRobot() 
+{
+	MP()->clear();
+	root->removeAllChildren();
+
 	frontRight = Leg::create();
-	frontRight->setup("FR", root, vec3(70, 0, 80), 3.1415f / 4.f, false);
+	frontRight->setup("FR", root, vec3(70, 0, 80), 3.1415f / 4.f, false, &config);
 
 	middleRight = Leg::create();
-	middleRight->setup("MR", root, vec3(0, 0, 100), 0, false);
+	middleRight->setup("MR", root, vec3(0, 0, 100), 0, false, &config);
 
 	backRight = Leg::create();
-	backRight->setup("BR", root, vec3(-70, 0, 80), -3.1415f / 4.f, false);
+	backRight->setup("BR", root, vec3(-70, 0, 80), -3.1415f / 4.f, false, &config);
 
 
 	frontLeft = Leg::create();
-	frontLeft->setup("FL", root, vec3(70, 0, -80), 3.1415f / 4.f * 3, true);
+	frontLeft->setup("FL", root, vec3(70, 0, -80), 3.1415f / 4.f * 3, true, &config);
 
 	middleLeft = Leg::create();
-	middleLeft->setup("ML", root, vec3(0, 0, -100), 3.1415f, true);
+	middleLeft->setup("ML", root, vec3(0, 0, -100), 3.1415f, true, &config);
 
 	backLeft = Leg::create();
-	backLeft->setup("BL", root, vec3(-70, 0, -80), -3.1415f / 4.f * 3, true);
+	backLeft->setup("BL", root, vec3(-70, 0, -80), -3.1415f / 4.f * 3, true, &config);
 
-
-	renderer.setup(root);
 }
 void InsectRobotSimulationApp::keyDown(KeyEvent event)
 {
+
 	if (event.getCode() == KeyEvent::KEY_p) {
 
 		time_t t = std::time(0);
@@ -91,23 +110,38 @@ void InsectRobotSimulationApp::keyDown(KeyEvent event)
 		console() << "printscreen" << endl;
 	}
 }
-void InsectRobotSimulationApp::mouseDown( MouseEvent event )
-{
-}
+
 
 void InsectRobotSimulationApp::update()
 {
+	updateGui();
+
+	if (config.isDirty) {
+		buildRobot();
+	}
+	if (control.isDirty) {
+		root->setBase(vec3(0, control.rootHeight, 0));
+	}
 	root->update();
 	renderer.update();
 
+	config.isDirty = false;
+	control.isDirty = false;
 
+}
+void InsectRobotSimulationApp::updateGui() 
+{
 	static bool showDemoWindow = false;
-	static bool showRenderWindow = false;
+	static bool showRenderWindow = true;
+	static bool showControlGui = true;
+	static bool showConfigGui = true;
 	{
 		ui::ScopedMainMenuBar menuBar;
-		if (ui::BeginMenu("View")) {
-			ui::MenuItem("RenderWindow", nullptr, &showRenderWindow);
-			ui::MenuItem("TestWindow", nullptr, &showDemoWindow);
+		if (ui::BeginMenu("Window")) {
+			ui::MenuItem("View", nullptr, &showRenderWindow);
+			ui::MenuItem("Control", nullptr, &showControlGui);
+			ui::MenuItem("Config", nullptr, &showConfigGui);
+			//ui::MenuItem("TestWindow", nullptr, &showDemoWindow);
 			ui::EndMenu();
 		}
 	}
@@ -117,8 +151,15 @@ void InsectRobotSimulationApp::update()
 	if (showRenderWindow) {
 		renderer.showRenderWindow();
 	}
-}
+	if (showControlGui) {
+		controlGui.show();
+	}
+	if (showConfigGui) 
+	{
+		configGui.show();
+	}
 
+}
 void InsectRobotSimulationApp::draw()
 {
 	gl::clear( Color( 0, 0, 0 ) ); 

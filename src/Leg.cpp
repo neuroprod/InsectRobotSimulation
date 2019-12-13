@@ -11,7 +11,7 @@ LegRef Leg::create()
 	return ref;
 }
 
-void Leg::setup(std::string name, NodeRef root, ci::vec3 startPos, float startRot, bool flip)
+void Leg::setup(std::string name, NodeRef root, ci::vec3 startPos, float startRot, bool flip, ModelConfig * config)
 {
 	mName = name;
 
@@ -35,7 +35,7 @@ void Leg::setup(std::string name, NodeRef root, ci::vec3 startPos, float startRo
 	sholderLR->addChild(sholderUD);
 	
 	knee = Node::create();
-	knee->setBase(vec3(0, 0, 80), vec3(3.1415 / 2, 0, 0));
+	knee->setBase(vec3(0, 0, config->upperLegSize), vec3(3.1415 / 2, 0, 0));
 	knee->setRotation(0);
 	knee->addMesh(MP()->getMesh("DMXaxis"));
 	if (flip) 

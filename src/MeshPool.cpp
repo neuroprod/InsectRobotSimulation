@@ -5,14 +5,19 @@ using namespace std;
 
 
 MeshPool::MeshPool() { 
-	setup();
+
 }
-void MeshPool::setup() 
+void MeshPool::setup(ModelConfig *_config)
 {
+	config = _config;
 	mGlslShadow = gl::GlslProg::create(loadAsset("shadow_shader.vert"), loadAsset("shadow_shader.frag"));
 
 }
+void  MeshPool::clear() 
+{
 
+	pool.clear();
+}
 MeshRef MeshPool::getMesh(std::string name)
 {
 	for (auto mesh : pool) 
@@ -25,9 +30,9 @@ MeshRef MeshPool::getMesh(std::string name)
 	if (name == "floor") { m->setup(name, geom::Plane().size(vec2(10000,10000)), vec3(0, 0, 0),Color(0.8,0.8,0.82), mGlslShadow); };
 	if (name == "DMXaxis") { m->setup(name, geom::Cylinder().radius(10.25).height(38).direction(vec3(1,0,0)),vec3(-38 / 2, 0, 0), Color(0.831, 0.475, 0.416), mGlslShadow); };
 	if (name == "2XL430") { m->setup(name, geom::Cube().size(36,	36.0f, 46.5f), vec3(0, 0, 46.5f/2-11.25),Color(0.149, 0.357, 0.416), mGlslShadow); };
-	if (name == "XC430") { m->setup(name, geom::Cube().size(28.5, 34.0f, 46.5f), vec3(0, 0,80+ 11.25), Color(0.149, 0.357, 0.416), mGlslShadow); };
-	if (name == "feedR") { m->setup(name, geom::Cone().base(10).apex(0).height(130).direction(vec3(0, 0, 1)),vec3(0, 0, 0), Color(0.494, 0.741, 0.569), mGlslShadow); };
-	if (name == "feedL") { m->setup(name, geom::Cone().base(10).apex(0).height(130).direction(vec3(0, 0, -1)), vec3(0, 0, 0), Color(0.494, 0.741, 0.569), mGlslShadow); };
+	if (name == "XC430") { m->setup(name, geom::Cube().size(28.5, 34.0f, 46.5f), vec3(0, 0,config->upperLegSize + 11.25), Color(0.149, 0.357, 0.416), mGlslShadow); };
+	if (name == "feedR") { m->setup(name, geom::Cone().base(10).apex(0).height(config->lowerLegSize).direction(vec3(0, 0, 1)),vec3(0, 0, 0), Color(0.494, 0.741, 0.569), mGlslShadow); };
+	if (name == "feedL") { m->setup(name, geom::Cone().base(10).apex(0).height(config->lowerLegSize).direction(vec3(0, 0, -1)), vec3(0, 0, 0), Color(0.494, 0.741, 0.569), mGlslShadow); };
 	
 	pool.push_back(m);
 	return m;

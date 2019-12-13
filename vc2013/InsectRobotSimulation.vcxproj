@@ -120,6 +120,8 @@
     <ClCompile Include="..\src\Leg.cpp" />
     <ClCompile Include="..\src\Mesh.cpp" />
     <ClCompile Include="..\src\MeshPool.cpp" />
+    <ClCompile Include="..\src\ModelConfigGui.cpp" />
+    <ClCompile Include="..\src\ModelControlGiu.cpp" />
     <ClCompile Include="..\src\Node.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +134,10 @@
     <ClInclude Include="..\src\Leg.h" />
     <ClInclude Include="..\src\Mesh.h" />
     <ClInclude Include="..\src\MeshPool.h" />
+    <ClInclude Include="..\src\ModelConfig.h" />
+    <ClInclude Include="..\src\ModelConfigGui.h" />
+    <ClInclude Include="..\src\ModelControl.h" />
+    <ClInclude Include="..\src\ModelControlGui.h" />
     <ClInclude Include="..\src\Node.h" />
     <ClInclude Include="..\src\Singleton.h" />
   </ItemGroup>

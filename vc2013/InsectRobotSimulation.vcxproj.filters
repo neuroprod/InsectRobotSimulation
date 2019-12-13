@@ -31,6 +31,18 @@
     <Filter Include="Blocks\ImGui\src">
       <UniqueIdentifier>{BE7009D4-9B7F-4989-B649-9C424E619208}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\view">
+      <UniqueIdentifier>{cb015e38-f332-48dd-b789-75b92600b198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{a945034a-e2ef-4bb7-99b8-a90982fefb36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{70c8c40e-05aa-45cb-ac6e-691456a9c11b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{bce9f3b0-cb66-4d4b-847c-7116b7b76135}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\InsectRobotSimulationApp.cpp">
@@ -70,19 +82,25 @@
       <Filter>Blocks\ImGui\lib\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\DebugRenderer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Leg.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Mesh.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClCompile>
     <ClCompile Include="..\src\MeshPool.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Node.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ModelControlGiu.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ModelConfigGui.cpp">
+      <Filter>Source Files\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,22 +108,34 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\DebugRenderer.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Leg.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Mesh.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClInclude>
     <ClInclude Include="..\src\MeshPool.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Node.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Singleton.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ModelConfig.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ModelControl.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ModelControlGui.h">
+      <Filter>Source Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ModelConfigGui.h">
+      <Filter>Source Files\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

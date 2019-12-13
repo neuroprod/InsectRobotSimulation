@@ -17,7 +17,23 @@ void Node::addChild(NodeRef ref)
 	children.push_back(ref);
 
 }
+void  Node::removeAllChildren() 
+{
+	for (auto child : children)
+	{
+		child->removeAllChildren();
+	}
+	children.clear();
+}
 
+void Node::setBase(vec3 position)
+{
+	baseMatrix = glm::mat4();
+	baseMatrix = glm::translate(baseMatrix, position);
+
+
+
+}
 void Node::setBase(vec3 position, vec3 rotation)
 {
 	baseMatrix =  glm::mat4();

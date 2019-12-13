@@ -11,9 +11,10 @@ class Node : public std::enable_shared_from_this<Node>
 public:
 	static NodeRef create();
 	Node() {};
+	void removeAllChildren();
 
 	void addChild(NodeRef ref);
-	
+	void setBase(glm::vec3 position);
 	void setBase(glm::vec3 position, glm::vec3 rotation);
 	void setRotation(float r);
 	void addMesh(MeshRef m);

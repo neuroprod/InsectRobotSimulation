@@ -2,7 +2,7 @@
 
 #include "cinder/app/App.h"
 #include "Node.h"
-
+#include "ModelConfig.h"
 class Leg;
 typedef std::shared_ptr<Leg> LegRef;
 
@@ -11,7 +11,7 @@ class Leg
 public:
 	static LegRef create();
 	Leg() {};
-	void setup(std::string name, NodeRef root, ci::vec3 startPos, float startRot, bool flip );
+	void setup(std::string name, NodeRef root, ci::vec3 startPos, float startRot, bool flip, ModelConfig * _config);
 	
 	std::string mName;
 
