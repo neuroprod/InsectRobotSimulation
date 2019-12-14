@@ -84,13 +84,15 @@ void DebugRenderer::draw()
 	MP()->mGlslShadow->uniform("alpha", 1.f);
 	mRoot->draw(showMesh,showCoordinates);
 	
-	
+
+
+	modelRenderer.drawHome();
+	if(showJoint1)modelRenderer.drawResolveJoint1(mRoot);
+	if (showJoint23)modelRenderer.drawResolveJoint23(mRoot);
+
+
 	MP()->mGlslShadow->uniform("alpha", 0.5f);
 	floor->draw();
-	//gl::enable(GL_POLYGON_OFFSET_FILL);
-	//glPolygonOffset(2.0f, 2.0f);
-	modelRenderer.drawHome();
-	//gl::disable(GL_POLYGON_OFFSET_FILL);
 }
 void DebugRenderer::updateCamera()
 {
@@ -109,8 +111,11 @@ void DebugRenderer::showRenderWindow()
 
 		ui::ScopedWindow window("Renderer");
 		if (ui::DragFloat("Camera Theta", &cameraTheta,0.01,0.001,3.1415/2)) updateCamera();
-		if (ui::DragFloat("Camera Phi", &cameraPhi, 0.01, 0, 3.1415)) updateCamera();
+		if (ui::DragFloat("Camera Phi", &cameraPhi, 0.01, -3.1415, 3.1415)) updateCamera();
 		if (ui::DragFloat("Camera distance", &cameraDistance, 1, 500, 2000)) updateCamera();
 		ui::Checkbox("show Mesh", &showMesh);
 		ui::Checkbox("show Coordinates", &showCoordinates);
+
+		ui::Checkbox("show Resolve Joint1", &showJoint1);
+		ui::Checkbox("show Resolve Joint23", &showJoint23);
 }

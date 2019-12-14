@@ -144,9 +144,7 @@
     <ClInclude Include="..\src\ModelControl.h" />
     <ClInclude Include="..\src\ModelControlGui.h" />
     <ClInclude Include="..\src\ModelLeg.h" />
-    <ClInclude Include="..\src\ModelNode.h" />
     <ClInclude Include="..\src\ModelRenderer.h" />
-    <ClInclude Include="..\src\ModelRootNode.h" />
     <ClInclude Include="..\src\Node.h" />
     <ClInclude Include="..\src\Singleton.h" />
   </ItemGroup>

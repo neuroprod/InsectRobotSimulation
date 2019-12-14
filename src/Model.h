@@ -23,6 +23,7 @@ public:
 	}
 	void setConfig(ModelConfig * config) 
 	{
+		
 		FR.setBase(config->frontLegStart, glm::vec3(0, config->frontLegAngle, 3.1415 / 2), config);
 
 		MR.setBase(config->middleLegStart, glm::vec3(0, config->middleLegAngle, 3.1415 / 2), config);
@@ -49,9 +50,20 @@ public:
 	{
 		rootMatrix = glm::mat4();
 		rootMatrix = glm::translate(rootMatrix, glm::vec3(0, control->rootHeight,0));
+	
+
+	
 		rootMatrix = glm::rotate(rootMatrix, control->rootRotX, glm::vec3(1, 0, 0));
 		rootMatrix = glm::rotate(rootMatrix, control->rootRotY, glm::vec3(0, 1, 0));
 		rootMatrix = glm::rotate(rootMatrix, control->rootRotZ, glm::vec3(0, 0, 1));
+		
+
+		for (int i = 0; i < 6; i++) 
+		{
+			legs[i]->resolve(rootMatrix);
+		
+		}
+
 	}
 	void update()
 	{	

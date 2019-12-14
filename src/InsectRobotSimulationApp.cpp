@@ -131,13 +131,23 @@ void InsectRobotSimulationApp::update()
 	if (config.isDirty) {
 		model.setConfig(&config);
 		buildRobot();
-
+		control.isDirty = true;
 	}
 	if (control.isDirty) {
 		root->setBase(vec3(0, control.rootHeight, 0),vec3(control.rootRotX, control.rootRotY, control.rootRotZ));
 		model.setControl(&control);
 	}
 	model.update();
+	for (int i = 0; i < 6; i++) 
+	{
+		if (i == 0) {
+		//	console() << model.legs[i]->shoulder1Angle << endl;
+		}
+		root->children[i]->setRotation(model.legs[i]->shoulder1Angle);
+	
+	
+	}
+
 	root->update();
 	renderer.update();
 
@@ -178,7 +188,7 @@ void InsectRobotSimulationApp::updateGui()
 }
 void InsectRobotSimulationApp::draw()
 {
-	gl::clear( Color( 0.5, 0.5, 0.5) );
+	gl::clear( Color( 0, 0, 0) );
 	renderer.draw();
 }
 

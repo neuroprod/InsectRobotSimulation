@@ -30,7 +30,7 @@ public:
 	ci::mat4 baseMatrix;
 	ci::mat4 localMatrix;
 	ci::mat4 globalMatrix;
-
+	ci::mat4 globalMatrixB;
 	std::vector<MeshRef> meshes;
 
 };

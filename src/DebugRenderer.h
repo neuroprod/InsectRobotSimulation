@@ -32,9 +32,11 @@ public:
 
 	MeshRef	floor;
 	
-	float cameraDistance = 1000;
-	float cameraTheta = 1;
+	float cameraDistance = 1500;
+	float cameraTheta = 1.1;
 	float cameraPhi = 1;
 	bool showMesh = true;
 	bool showCoordinates= true;
+	bool showJoint1 = true;
+	bool showJoint23 = true;
 };

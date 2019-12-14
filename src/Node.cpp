@@ -53,14 +53,17 @@ void Node::update()
 {
 	
 	localMatrix = baseMatrix;
+
 	localMatrix = glm::rotate(localMatrix, currentRotation, vec3(1, 0, 0));
 	if (parent) 
 	{
 		globalMatrix = parent->globalMatrix *localMatrix;
+		globalMatrixB = parent->globalMatrix *baseMatrix;
 	}
 	else 
 	{
 		globalMatrix = localMatrix;
+		globalMatrixB = localMatrix;
 	}
 	
 	for (auto child : children) 

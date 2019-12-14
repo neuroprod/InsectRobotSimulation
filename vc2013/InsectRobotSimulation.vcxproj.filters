@@ -146,17 +146,11 @@
     <ClInclude Include="..\src\Model.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ModelNode.h">
-      <Filter>Source Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\ModelLeg.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ModelRenderer.h">
       <Filter>Source Files\view</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ModelRootNode.h">
-      <Filter>Source Files\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
