@@ -88,24 +88,25 @@ void Node::drawShadow()
 		child->drawShadow();
 	}
 }
-void Node::draw() 
+void Node::draw(bool showMesh, bool showCoordinates)
 {
 	gl::pushMatrices();
 	
 	gl::setModelMatrix(globalMatrix);
-	
-	for (auto m : meshes) 
-	{
-		m->draw();
+	if (showMesh) {
+		for (auto m : meshes)
+		{
+			m->draw();
+		}
 	}
-	
-	gl::drawCoordinateFrame(35,10,2);
+	if(showCoordinates) gl::drawCoordinateFrame(35,10,2);
+	//gl::drawStringCentered("test", vec2(0, 0));
 	gl::popMatrices();
 
 
 	for (auto child : children)
 	{
-		child->draw();
+		child->draw(showMesh, showCoordinates);
 	}
 }
 

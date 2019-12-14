@@ -107,7 +107,10 @@
   <ItemGroup>
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\assets\shadow_shader.frag" />
+    <None Include="..\assets\shadow_shader.vert" />
+  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <ClCompile Include="..\..\..\cinder_master\blocks\Cinder-ImGui\lib\imgui\imgui_widgets.cpp" />
@@ -122,6 +125,7 @@
     <ClCompile Include="..\src\MeshPool.cpp" />
     <ClCompile Include="..\src\ModelConfigGui.cpp" />
     <ClCompile Include="..\src\ModelControlGiu.cpp" />
+    <ClCompile Include="..\src\ModelRenderer.cpp" />
     <ClCompile Include="..\src\Node.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,10 +138,15 @@
     <ClInclude Include="..\src\Leg.h" />
     <ClInclude Include="..\src\Mesh.h" />
     <ClInclude Include="..\src\MeshPool.h" />
+    <ClInclude Include="..\src\Model.h" />
     <ClInclude Include="..\src\ModelConfig.h" />
     <ClInclude Include="..\src\ModelConfigGui.h" />
     <ClInclude Include="..\src\ModelControl.h" />
     <ClInclude Include="..\src\ModelControlGui.h" />
+    <ClInclude Include="..\src\ModelLeg.h" />
+    <ClInclude Include="..\src\ModelNode.h" />
+    <ClInclude Include="..\src\ModelRenderer.h" />
+    <ClInclude Include="..\src\ModelRootNode.h" />
     <ClInclude Include="..\src\Node.h" />
     <ClInclude Include="..\src\Singleton.h" />
   </ItemGroup>

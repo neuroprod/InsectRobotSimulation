@@ -20,7 +20,7 @@ public:
 	void addMesh(MeshRef m);
 	void update();
 
-	void draw();
+	void draw(bool showMesh,bool showCoordinates);
 	void drawShadow();
 	
 	NodeRef parent =nullptr;

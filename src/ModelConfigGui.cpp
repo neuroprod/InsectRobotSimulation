@@ -7,6 +7,7 @@ void ModelConfigGui::setup(ModelConfig * _config)
 void  ModelConfigGui::show()
 {
 	ui::ScopedWindow window("Config");
+	if (ui::DragFloat("Leg Home Distance", &config->homeDistance, 1, 0, 300)) config->isDirty = true;
 	if (ui::DragFloat("Upper Leg Size", &config->upperLegSize, 1, 0, 300)) config->isDirty = true;
 	if (ui::DragFloat("Lower Leg Size", &config->lowerLegSize, 1, 0, 300)) config->isDirty = true;
 	ImGui::Separator();

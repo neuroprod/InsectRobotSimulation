@@ -5,12 +5,13 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-void DebugRenderer::setup(NodeRef root)
+void DebugRenderer::setup(NodeRef root, Model *model)
 {
 	mRoot = root;
 	
 	updateCamera();
-	
+	modelRenderer.model = model;
+
 	
 
 	
@@ -53,8 +54,8 @@ void  DebugRenderer::update() {
 	gl::clear(Color::black());
 	gl::color(Color::white());
 	gl::setMatrices(mLightCam);
+	if(showMesh)mRoot->drawShadow();
 	
-	mRoot->drawShadow();
 
 	floor->drawShadow();
 
@@ -80,13 +81,16 @@ void DebugRenderer::draw()
 	MP()->mGlslShadow->uniform("uShadowMap", 0);
 	MP()->mGlslShadow->uniform("uLightPos", mLightPos);
 	MP()->mGlslShadow->uniform("uShadowMatrix", shadowMatrix);
-
-	mRoot->draw();
+	MP()->mGlslShadow->uniform("alpha", 1.f);
+	mRoot->draw(showMesh,showCoordinates);
 	
 	
+	MP()->mGlslShadow->uniform("alpha", 0.5f);
 	floor->draw();
-	
-	
+	//gl::enable(GL_POLYGON_OFFSET_FILL);
+	//glPolygonOffset(2.0f, 2.0f);
+	modelRenderer.drawHome();
+	//gl::disable(GL_POLYGON_OFFSET_FILL);
 }
 void DebugRenderer::updateCamera()
 {
@@ -107,5 +111,6 @@ void DebugRenderer::showRenderWindow()
 		if (ui::DragFloat("Camera Theta", &cameraTheta,0.01,0.001,3.1415/2)) updateCamera();
 		if (ui::DragFloat("Camera Phi", &cameraPhi, 0.01, 0, 3.1415)) updateCamera();
 		if (ui::DragFloat("Camera distance", &cameraDistance, 1, 500, 2000)) updateCamera();
-
+		ui::Checkbox("show Mesh", &showMesh);
+		ui::Checkbox("show Coordinates", &showCoordinates);
 }

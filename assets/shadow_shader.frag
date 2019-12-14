@@ -1,5 +1,5 @@
 #version 150 core
-
+uniform float alpha;
 uniform vec3 uLightPos;
 uniform sampler2DShadow uShadowMap;
 
@@ -60,6 +60,6 @@ void main( void )
 	shadow =shadow*0.3+0.7;
 	
 	Color.rgb = ( Diffuse  * shadow  + Ambient )* vColor.rgb;
-	Color.a	= 1.0;
+	Color.a	= alpha;
 	
 }

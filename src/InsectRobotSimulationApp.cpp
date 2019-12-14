@@ -1,3 +1,7 @@
+
+
+#define PI 3.1415
+
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
@@ -10,7 +14,7 @@
 #include "ModelControl.h"
 #include "ModelControlGui.h"
 #include "CinderImGui.h"
-
+#include "Model.h"
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -43,6 +47,8 @@ class InsectRobotSimulationApp : public App {
 	ModelConfigGui configGui;
 
 	DebugRenderer renderer;
+
+	Model model;
 };
 
 void InsectRobotSimulationApp::setup()
@@ -68,7 +74,7 @@ void InsectRobotSimulationApp::setup()
 	buildRobot();
 
 	
-	renderer.setup(root);
+	renderer.setup(root,&model);
 	controlGui.setup(&control);
 	configGui.setup(&config);
 
@@ -123,11 +129,15 @@ void InsectRobotSimulationApp::update()
 	updateGui();
 
 	if (config.isDirty) {
+		model.setConfig(&config);
 		buildRobot();
+
 	}
 	if (control.isDirty) {
-		root->setBase(vec3(0, control.rootHeight, 0));
+		root->setBase(vec3(0, control.rootHeight, 0),vec3(control.rootRotX, control.rootRotY, control.rootRotZ));
+		model.setControl(&control);
 	}
+	model.update();
 	root->update();
 	renderer.update();
 
@@ -168,7 +178,7 @@ void InsectRobotSimulationApp::updateGui()
 }
 void InsectRobotSimulationApp::draw()
 {
-	gl::clear( Color( 0, 0, 0 ) ); 
+	gl::clear( Color( 0.5, 0.5, 0.5) );
 	renderer.draw();
 }
 

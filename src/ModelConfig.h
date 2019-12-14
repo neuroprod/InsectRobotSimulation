@@ -4,8 +4,13 @@ class ModelConfig
 {
 public: 
 	bool isDirty = true;
+
+	float homeDistance = 100;
+
 	float upperLegSize = 80;
 	float lowerLegSize = 130;
+	
+
 
 	float frontLegAngle =3.1415/4 ;
 	glm::vec3 frontLegStart = glm::vec3(70, 0, 80);

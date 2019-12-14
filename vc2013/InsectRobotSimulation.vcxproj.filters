@@ -43,6 +43,9 @@
     <Filter Include="Source Files\gui">
       <UniqueIdentifier>{bce9f3b0-cb66-4d4b-847c-7116b7b76135}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{bc411297-a1a2-4a7d-b1dc-fbd393547d6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\InsectRobotSimulationApp.cpp">
@@ -102,6 +105,9 @@
     <ClCompile Include="..\src\ModelConfigGui.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ModelRenderer.cpp">
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -137,10 +143,33 @@
     <ClInclude Include="..\src\ModelConfigGui.h">
       <Filter>Source Files\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Model.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ModelNode.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ModelLeg.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ModelRenderer.h">
+      <Filter>Source Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ModelRootNode.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\assets\shadow_shader.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="..\assets\shadow_shader.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

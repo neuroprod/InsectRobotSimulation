@@ -3,11 +3,14 @@
 #include "cinder/gl/gl.h"
 #include "Node.h"
 #include "Mesh.h"
+#include "Model.h"
+#include "ModelRenderer.h"
+
 class DebugRenderer 
 {
 public:
 	DebugRenderer() {}
-	void setup(NodeRef root);
+	void setup(NodeRef root,Model * model);
 	void update();
 
 
@@ -17,7 +20,7 @@ public:
 	ci::CameraPersp	mCam;
 	NodeRef mRoot;
 
-
+	ModelRenderer modelRenderer;
 	ci::gl::FboRef			mFbo;
 
 	ci::CameraPersp			mLightCam;
@@ -32,4 +35,6 @@ public:
 	float cameraDistance = 1000;
 	float cameraTheta = 1;
 	float cameraPhi = 1;
+	bool showMesh = true;
+	bool showCoordinates= true;
 };
