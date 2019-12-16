@@ -50,7 +50,8 @@ void ModelRenderer::drawResolveJoint23(NodeRef root)
 	for (int i = 0; i < 6; i++)
 	{
 		gl::pushMatrices();
-		gl::setModelMatrix(root->children[i]->globalMatrix);
+	//	gl::setModelMatrix(root->children[i]->globalMatrix);
+		gl::setModelMatrix(model->legs[i]->shoulder1GlobalMatrix);
 		gl::drawCoordinateFrame(20);
 
 	
@@ -59,9 +60,8 @@ void ModelRenderer::drawResolveJoint23(NodeRef root)
 	
 		gl::pushMatrices();
 		gl::rotate(3.1415 / 2, vec3(1, 0, 0));
-		gl::drawStrokedCircle(vec2(model->legs[i]->targetPointLocal.x, model->legs[i]->targetPointLocal.z), model->legs[i]->lowerLegSize);
-		gl::translate(0, 24, 0);
-		gl::drawStrokedCircle(vec2(0, 0), model->legs[i]->upperLegSize);
+		gl::drawStrokedCircle(model->legs[i]->posTarget,  model->legs[i]->lowerLegSize);
+		gl::drawStrokedCircle(model->legs[i]->posJoint, model->legs[i]->upperLegSize);
 		gl::popMatrices();
 
 		gl::popMatrices();

@@ -1,6 +1,6 @@
 
 
-#define PI 3.1415
+
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
