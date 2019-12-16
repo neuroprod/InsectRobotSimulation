@@ -9,6 +9,7 @@ public:
 	ModelRenderer() {}
 	Model * model;
 	void drawHome();
+	void drawMove();
 	void drawResolveJoint1(NodeRef root);
 	void drawResolveJoint23(NodeRef root);
 

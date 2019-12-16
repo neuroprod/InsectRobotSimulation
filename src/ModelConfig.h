@@ -5,11 +5,16 @@ class ModelConfig
 public: 
 	bool isDirty = true;
 
-	float homeDistance = 80+24;
+	float homeDistance = 165;
 
 	float upperLegSize = 80;
 	float lowerLegSize = 130;
 	
+
+
+	float stepHeight =30;
+	int stepPower =3;
+	float stepTime = 1.f;
 
 
 	float frontLegAngle =3.1415/4 ;

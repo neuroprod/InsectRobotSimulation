@@ -11,6 +11,10 @@ void  ModelConfigGui::show()
 	if (ui::DragFloat("Upper Leg Size", &config->upperLegSize, 1, 0, 300)) config->isDirty = true;
 	if (ui::DragFloat("Lower Leg Size", &config->lowerLegSize, 1, 0, 300)) config->isDirty = true;
 	ImGui::Separator();
+	if (ui::DragFloat("stepHeight", &config->stepHeight, 1, 0, 100)) config->isDirty = true;
+	if (ui::DragInt("stepPower", &config->stepPower, 1, 0, 20)) config->isDirty = true;
+	if (ui::DragFloat("stepTime", &config->stepTime, 0.1, 0.1, 20)) config->isDirty = true;
+	ImGui::Separator();
 	if (ui::DragFloat("Front Leg Angle", &config->frontLegAngle, 0.01,-3.1415, 3.1415)) config->isDirty = true;
 	if (ui::DragFloat3("Front Leg Pos", &config->frontLegStart[0], 1)) config->isDirty = true;
 	ImGui::Separator();

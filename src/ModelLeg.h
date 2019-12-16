@@ -27,14 +27,53 @@ public:
 
 		homePoint = position + (dir*config->homeDistance);
 		homePoint.y = 0;
-	
+		startPoint = homePoint;
+		targetPoint = homePoint;
 		upperLegSize = config->upperLegSize;
 		lowerLegSize = config->lowerLegSize;
-	}
-	void resolve(glm::mat4 &rootMatrix)
-	{
 
-		glm::vec3 targetPoint = homePoint;//+targetVec
+		stepHeight = config->stepHeight;
+		stepPower = config->stepPower;
+	}
+	void reset() 
+	{
+		float factor = 1;
+		if (!isForward)factor = -1;
+
+		startPoint = targetPoint;
+		startPoint.y = 0;
+		glm::vec3 endPoint = homePoint + dirMove*moveDistance*factor;
+		dirMove = endPoint - startPoint;
+		moveDistance = glm::length(dirMove);
+		if(moveDistance!=0) dirMove /= moveDistance;
+	}
+	void resolve(glm::mat4 &rootMatrix, float time)
+	{
+		float y = 0;
+		float sh = min(stepHeight, moveDistance);
+
+		if (isForward == 1)
+		{
+			y = 0;
+			if (time < 0.5)
+			{
+				float stepr = 1 - time * 2;
+				y = (1 - pow(stepr, stepPower))* sh;
+			}
+			if (time >= 0.5)
+			{
+				float stepr = (time - 0.5) * 2;
+				y = (1 - pow(stepr, stepPower)) * sh;
+			}
+
+		}
+		
+		glm::vec3 targetVec =  dirMove*moveDistance*time;
+		targetVec.y = y;
+
+
+		////////////
+		 targetPoint = startPoint + targetVec;
 
 		//start resolving kinematics
 		//***show resolve Joint 1 in UI***
@@ -127,12 +166,21 @@ public:
 		if (mFlip)  	shoulder3Angle *= -1;
 	}
 
+	glm::vec3 targetPoint;
+	glm::vec3 startPoint;
+	glm::vec3 dirMove;
+	float angleTurn;
+	float moveDistance;
+
+	bool isSet1;
+	bool isForward;
 	float shoulder1Angle =0;
 	float shoulder2Angle = 0;
 	float shoulder3Angle = 0;
 	float upperLegSize;
 	float lowerLegSize;
-
+	float stepHeight;
+	int stepPower;
 	bool mFlip = false;
 
 	glm::vec3 dir;

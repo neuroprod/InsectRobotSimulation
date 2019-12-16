@@ -35,8 +35,13 @@ public:
 	float cameraDistance = 1500;
 	float cameraTheta = 1.1;
 	float cameraPhi = 1;
+	bool drawHome = true;
+	bool drawMove = true;
 	bool showMesh = true;
-	bool showCoordinates= true;
-	bool showJoint1 = true;
-	bool showJoint23 = true;
+	bool showFloor = false;
+	bool showCoordinates= false;
+	bool showJoint1 =false;
+	bool showJoint23 = false;
+	bool showHomePos = true;
+	bool showMoveVec = true;
 };

@@ -49,6 +49,7 @@ class InsectRobotSimulationApp : public App {
 	DebugRenderer renderer;
 
 	Model model;
+	double previousTime;
 };
 
 void InsectRobotSimulationApp::setup()
@@ -69,7 +70,7 @@ void InsectRobotSimulationApp::setup()
 	root = Node::create();
 	root->setBase(vec3(0,control.rootHeight, 0), vec3(0, 0, 0));
 	root->setRotation(0);
-
+	root->addMesh(MP()->getMesh("body"));
 
 	buildRobot();
 
@@ -77,7 +78,6 @@ void InsectRobotSimulationApp::setup()
 	renderer.setup(root,&model);
 	controlGui.setup(&control);
 	configGui.setup(&config);
-
 
 }
 void InsectRobotSimulationApp::buildRobot() 
@@ -137,7 +137,13 @@ void InsectRobotSimulationApp::update()
 		root->setBase(vec3(control.rootOffX, control.rootHeight, control.rootOffZ),vec3(control.rootRotX, control.rootRotY, control.rootRotZ));
 		model.setControl(&control);
 	}
-	model.update();
+	double currentTime = getElapsedSeconds();
+	float delta =  currentTime-previousTime;
+
+	previousTime = currentTime;
+	
+	model.update(delta);
+	root->baseMatrix = model.rootMatrix;
 	for (int i = 0; i < 6; i++) 
 	{
 		

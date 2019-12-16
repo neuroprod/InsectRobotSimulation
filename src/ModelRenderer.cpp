@@ -6,22 +6,104 @@ using namespace std;
 void ModelRenderer::drawHome() 
 {
 	gl::color(1, 0, 0);
-	gl::lineWidth(2);
+	gl::lineWidth(1);
 	for (int i = 0; i < 6; i++) 
 	{
 		
 		gl::pushMatrices();
 		gl::translate(model->legs[i]->homePoint);
-		gl::rotate(3.1415 / 2, 1, 0, 0);
+		
 		gl::drawLine(vec2(0,10),vec2(0,-10));
 		gl::drawLine(vec2(10, 0), vec2(-10, 0));
-		gl::drawStrokedCircle(vec2(0, 0), 5);
+		gl::drawLine(vec3(0, 0,10), vec3(0, 0,-10));
+	
+
+
+
+
+		gl::popMatrices();
+	}
+}
+void ModelRenderer::drawMove()
+{
+	
+	gl::lineWidth(1);
+	ModelControl * control = model->mControl;
+	for (int i = 0; i < 6; i++)
+	{
+
+		gl::pushMatrices();
+		float angleMove = control->moveAngle;
+		float angleTurn = control->turnAngle;
+
+
+
+		vec3 home = model->legs[i]->startPoint;
+		
+		float startAngle = atan2(home.z, home.x);
+		
+		float radius = glm::length(home);
+		float factor = 1;
+		if (!model->legs[i]->isForward)factor = -1;
+
+		vec3 prevPosTurn = home;
+		vec3 prevPosMove = home;
+		vec3 prevPos = home;
+		int numSteps = 20;
+
+
+		for (int j = 0; j <= numSteps; j++) 
+		{
+			
+
+			gl::color(0, 0, 1);
+			float step = (float)j / (numSteps);
+			float dist = model->legs[i]->moveDistance*step*factor;
+
+			float y = 0;
+			if (factor == 1) 
+			{
+				y = 0;
+				if (step < 0.5) 
+				{
+					float stepr =1- step* 2;
+					y =(1- pow(stepr, model->legs[i]->stepPower))* model->legs[i]->stepHeight;
+				}
+				if (step >= 0.5)
+				{
+					float stepr =  (step-0.5) * 2;
+					y = (1- pow(stepr, model->legs[i]->stepPower)) * model->legs[i]->stepHeight;
+				}
+				
+			}
+
+			vec3 posMove = home + vec3(cos(angleMove)*dist, y, sin(angleMove)*dist);
+			
+			//gl::drawLine(prevPosMove, posMove);
+			prevPosMove = posMove;
+
+			float angle = startAngle+ angleTurn*step*factor;
+
+			vec3 posTurn = vec3(cos(angle)*radius, 0, sin(angle)*radius);
+			vec3 pos = posTurn + posMove - home;
+
+			posTurn.y = y;
+			//gl::drawLine(posTurn, prevPosTurn);
+			prevPosTurn = posTurn;
+			
+			gl::color(1,1, 1);
+		
+			gl::drawLine(pos, prevPos);
+			prevPos= pos;
+
+		}
+
 		gl::popMatrices();
 	}
 }
 void ModelRenderer::drawResolveJoint1(NodeRef root)
 {
-	gl::color(0.5, 0.5, 0.5);
+	
 	gl::lineWidth(1);
 	for (int i = 0; i < 6; i++)
 	{
@@ -34,9 +116,9 @@ void ModelRenderer::drawResolveJoint1(NodeRef root)
 		gl::drawCoordinateFrame(20);
 		gl::popMatrices();
 
-
+		gl::color(0, 1, 0);
 		gl::drawLine(vec3(0, 0, 0), model->legs[i]->targetPointLocalFlat);
-		gl::drawLine(vec3(model->legs[i]->targetPointLocal), model->legs[i]->targetPointLocalFlat);
+		gl::color(1, 1,1);
 		gl::drawLine(vec3(0, 0, 0), vec3(0, 0, 150));
 	
 		gl::popMatrices();
@@ -49,7 +131,7 @@ void ModelRenderer::drawResolveJoint23(NodeRef root)
 	gl::lineWidth(1);
 	for (int i = 0; i < 6; i++)
 	{
-		gl::color(0.5, 0.5, 0.5);
+		gl::color(1, 1, 1);
 		gl::pushMatrices();
 	//	gl::setModelMatrix(root->children[i]->globalMatrix);
 		gl::setModelMatrix(model->legs[i]->shoulder1GlobalMatrix);

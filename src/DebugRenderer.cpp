@@ -76,23 +76,23 @@ void DebugRenderer::draw()
 	gl::ScopedTextureBind texScope(mShadowMapTex, (uint8_t)0);
 	vec3 mvLightPos = vec3(gl::getModelView() * vec4(mLightPos, 1.0f));
 	mat4 shadowMatrix = mLightCam.getProjectionMatrix() * mLightCam.getViewMatrix();
-	
+
 
 	MP()->mGlslShadow->uniform("uShadowMap", 0);
 	MP()->mGlslShadow->uniform("uLightPos", mLightPos);
 	MP()->mGlslShadow->uniform("uShadowMatrix", shadowMatrix);
 	MP()->mGlslShadow->uniform("alpha", 1.f);
-	mRoot->draw(showMesh,showCoordinates);
-	
+	mRoot->draw(showMesh, showCoordinates);
 
 
-	modelRenderer.drawHome();
-	if(showJoint1)modelRenderer.drawResolveJoint1(mRoot);
+	if (showHomePos)modelRenderer.drawHome();
+	if(showMoveVec)modelRenderer.drawMove();
+	if (showJoint1)modelRenderer.drawResolveJoint1(mRoot);
 	if (showJoint23)modelRenderer.drawResolveJoint23(mRoot);
 
-
-	MP()->mGlslShadow->uniform("alpha", 0.5f);
-	floor->draw();
+	if (showFloor) {
+		floor->draw();
+	}
 }
 void DebugRenderer::updateCamera()
 {
@@ -114,8 +114,10 @@ void DebugRenderer::showRenderWindow()
 		if (ui::DragFloat("Camera Phi", &cameraPhi, 0.01, -3.1415, 3.1415)) updateCamera();
 		if (ui::DragFloat("Camera distance", &cameraDistance, 1, 500, 2000)) updateCamera();
 		ui::Checkbox("show Mesh", &showMesh);
+		ui::Checkbox("show Floor", &showFloor);
 		ui::Checkbox("show Coordinates", &showCoordinates);
-
+		ui::Checkbox("show homePos", &showHomePos);
+		ui::Checkbox("show moveVec", &showMoveVec);
 		ui::Checkbox("show Resolve Joint1", &showJoint1);
 		ui::Checkbox("show Resolve Joint23", &showJoint23);
 }
