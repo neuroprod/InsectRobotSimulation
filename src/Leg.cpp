@@ -31,8 +31,8 @@ void Leg::setup(std::string name, NodeRef root, ci::vec3 startPos, float startRo
 	sholderUD->setBase(vec3(0, 0, 24), vec3(0, 0, startAngle));
 	sholderUD->setRotation(0);
 	sholderUD->addMesh(MP()->getMesh("DMXaxis"));
+	sholderUD->addMesh(MP()->getMesh("XC430"));
 
-	sholderLR->addMesh(MP()->getMesh("XC430"));
 	sholderLR->addChild(sholderUD);
 	
 	knee = Node::create();

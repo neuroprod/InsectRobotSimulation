@@ -13,8 +13,9 @@ public:
 	{
 	
 	}
-	void setBase(glm::vec3 position, glm::vec3 rotation, ModelConfig * config)
+	void setBase(glm::vec3 position, glm::vec3 rotation, ModelConfig * config, bool flip)
 	{
+		mFlip = flip;
 		baseMatrix = glm::mat4();
 		baseMatrix = glm::translate(baseMatrix, position);
 		baseMatrix = glm::rotate(baseMatrix, rotation.x, glm::vec3(1, 0, 0));
@@ -56,21 +57,83 @@ public:
 		
 	
 		//reduce to 2D problem 
-		posJoint = glm::vec2(0, 24);
-		float r1 = upperLegSize;
-		posTarget = glm::vec2(targetPointLocal2.x, targetPointLocal2.z);
-		float r2 = lowerLegSize;
+		posJoint = glm::vec2(0, 24);//0
+		float r0 = upperLegSize;
+		posTarget = glm::vec2(targetPointLocal2.x, targetPointLocal2.z);//1
+		float r1 = lowerLegSize;
 		// intersection 2 circles
 
+		float dx = posTarget.x - posJoint.x;
+		float dy = posTarget.y - posJoint.y;
+		// Determine the straight-line distance between the centers. 
+		float d = sqrt((dy*dy) + (dx*dx));
 
+		if (d > (r0 + r1)) {
+			// no solution. circles do not intersect. 
+			console() << "no solution" << endl;
+			return ;
+		}
+		if (d < abs(r0 - r1)) {
+			// no solution. one circle is contained in the other
+			console() << "no solution" << endl;
+			return ;
+		}
+		/* 'point 2' is the point where the line through the circle
+		* intersection points crosses the line between the circle
+		* centers.
+		*/
+
+		//Determine the distance from point 0 to point 2. 
+		float a = ((r0*r0) - (r1*r1) + (d*d)) / (2.0 * d);
+
+		//Determine the coordinates of point 2. 
+		float x2 = posJoint.x + (dx * a / d);
+		float y2 = posJoint.y + (dy * a / d);
+
+		//Determine the distance from point 2 to either of the intersection points.
+		
+		float h = sqrt((r0*r0) - (a*a));
+
+		
+		//Now determine the offsets of the intersection points from point 2.
+		
+		float rx = -dy * (h / d);
+		float ry = dx * (h / d);
+
+		//Determine the absolute intersection points. 2 solutions
+		solution1.x  = x2 + rx;
+		solution2.x = x2 - rx;
+
+		solution1.y = y2 + ry;
+		solution2.y = y2 - ry;
+		
+		//we want the top solution
+		if (solution2.y > solution1.y) 
+		{
+			solution = solution2;
+		}
+		else 
+		{
+			solution = solution1;
+		}
+		
+
+		//final angles
+		
+		shoulder2Angle =  atan2(solution.y-posJoint.y, solution.x - posJoint.x)- atan2(1, 0) ;
+		if (mFlip)  shoulder2Angle *= -1;
+		shoulder3Angle = atan2(posJoint.y - solution.y, posJoint.x - solution.x) - atan2(posTarget.y - solution.y, posTarget.x - solution.x);
+		shoulder3Angle = -shoulder3Angle + 3.1415 / 2;
+		if (mFlip)  	shoulder3Angle *= -1;
 	}
 
 	float shoulder1Angle =0;
-
+	float shoulder2Angle = 0;
+	float shoulder3Angle = 0;
 	float upperLegSize;
 	float lowerLegSize;
 
-
+	bool mFlip = false;
 
 	glm::vec3 dir;
 	glm::mat4 baseMatrix;
@@ -82,4 +145,9 @@ public:
 	glm::vec2 posJoint;
 	glm::vec2 posTarget;
 	
+	glm::vec2 solution1;
+	glm::vec2 solution2;
+
+	glm::vec2 solution;
+
 };

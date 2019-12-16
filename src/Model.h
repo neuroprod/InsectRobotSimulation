@@ -24,34 +24,34 @@ public:
 	void setConfig(ModelConfig * config) 
 	{
 		
-		FR.setBase(config->frontLegStart, glm::vec3(0, config->frontLegAngle, 3.1415 / 2), config);
+		FR.setBase(config->frontLegStart, glm::vec3(0, config->frontLegAngle, 3.1415 / 2), config, false);
 
-		MR.setBase(config->middleLegStart, glm::vec3(0, config->middleLegAngle, 3.1415 / 2), config);
+		MR.setBase(config->middleLegStart, glm::vec3(0, config->middleLegAngle, 3.1415 / 2), config,false);
 
-		BR.setBase(config->backLegStart, glm::vec3(0, config->backLegAngle, 3.1415 / 2), config);
+		BR.setBase(config->backLegStart, glm::vec3(0, config->backLegAngle, 3.1415 / 2), config,false);
 
 
 		glm::vec3 frontstart = config->frontLegStart;
 		frontstart.z *= -1;
-		FL.setBase(frontstart, glm::vec3(0, -config->frontLegAngle + 3.1415, 3.1415 / 2), config);
+		FL.setBase(frontstart, glm::vec3(0, -config->frontLegAngle + 3.1415, 3.1415 / 2), config,true);
 
 		glm::vec3 middlestart = config->middleLegStart;
 		middlestart.z *= -1;
 	
-		ML.setBase(middlestart, glm::vec3(0, -config->middleLegAngle + 3.1415, 3.1415 / 2), config);
+		ML.setBase(middlestart, glm::vec3(0, -config->middleLegAngle + 3.1415, 3.1415 / 2), config,true);
 
 		glm::vec3 backstart = config->backLegStart;
 		backstart.z *= -1;
-		BL.setBase(backstart, glm::vec3(0, -config->backLegAngle + 3.1415, 3.1415 / 2), config);
+		BL.setBase(backstart, glm::vec3(0, -config->backLegAngle + 3.1415, 3.1415 / 2), config,true);
 
 
 	}
 	void setControl(ModelControl *control) 
 	{
-		rootMatrix = glm::mat4();
-		rootMatrix = glm::translate(rootMatrix, glm::vec3(0, control->rootHeight,0));
-	
 
+		/// Inverse kinematics calculation
+		rootMatrix = glm::mat4();
+		rootMatrix = glm::translate(rootMatrix, glm::vec3(control->rootOffX, control->rootHeight, control->rootOffZ));
 	
 		rootMatrix = glm::rotate(rootMatrix, control->rootRotX, glm::vec3(1, 0, 0));
 		rootMatrix = glm::rotate(rootMatrix, control->rootRotY, glm::vec3(0, 1, 0));

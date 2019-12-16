@@ -134,18 +134,16 @@ void InsectRobotSimulationApp::update()
 		control.isDirty = true;
 	}
 	if (control.isDirty) {
-		root->setBase(vec3(0, control.rootHeight, 0),vec3(control.rootRotX, control.rootRotY, control.rootRotZ));
+		root->setBase(vec3(control.rootOffX, control.rootHeight, control.rootOffZ),vec3(control.rootRotX, control.rootRotY, control.rootRotZ));
 		model.setControl(&control);
 	}
 	model.update();
 	for (int i = 0; i < 6; i++) 
 	{
-		if (i == 0) {
-		//	console() << model.legs[i]->shoulder1Angle << endl;
-		}
+		
 		root->children[i]->setRotation(model.legs[i]->shoulder1Angle);
-	
-	
+		root->children[i]->children[0]->setRotation(model.legs[i]->shoulder2Angle);
+		root->children[i]->children[0]->children[0]->setRotation(model.legs[i]->shoulder3Angle);
 	}
 
 	root->update();
