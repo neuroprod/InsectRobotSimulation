@@ -31,74 +31,63 @@ void ModelRenderer::drawMove()
 	ModelControl * control = model->mControl;
 	for (int i = 0; i < 6; i++)
 	{
-
+	
 		gl::pushMatrices();
-		float angleMove = control->moveAngle;
-		float angleTurn = control->turnAngle;
+		//float angleMove = control->moveAngle;
+		//float angleTurn = model->legs[i]->angleTurn;
 
 
 
 		vec3 home = model->legs[i]->startPoint;
-		
-		float startAngle = atan2(home.z, home.x);
-		
-		float radius = glm::length(home);
-		float factor = 1;
-		if (!model->legs[i]->isForward)factor = -1;
+		vec3 moveVec = model->legs[i]->targetMoveVec;
 
+		float startAngle = model->legs[i]->startAngle; 
+		float radius = model->legs[i]->turnRadius;
+		float angle = model->legs[i]->targetTurnAngle;
+		
+		
 		vec3 prevPosTurn = home;
 		vec3 prevPosMove = home;
 		vec3 prevPos = home;
 		int numSteps = 20;
 
-
+	
 		for (int j = 0; j <= numSteps; j++) 
 		{
 			
 
 			gl::color(0, 0, 1);
 			float step = (float)j / (numSteps);
-			float dist = model->legs[i]->moveDistance*step*factor;
-
-			float y = 0;
-			if (factor == 1) 
-			{
-				y = 0;
-				if (step < 0.5) 
-				{
-					float stepr =1- step* 2;
-					y =(1- pow(stepr, model->legs[i]->stepPower))* model->legs[i]->stepHeight;
-				}
-				if (step >= 0.5)
-				{
-					float stepr =  (step-0.5) * 2;
-					y = (1- pow(stepr, model->legs[i]->stepPower)) * model->legs[i]->stepHeight;
-				}
-				
-			}
-
-			vec3 posMove = home + vec3(cos(angleMove)*dist, y, sin(angleMove)*dist);
 			
-			//gl::drawLine(prevPosMove, posMove);
+
+		
+
+			vec3 posMove = home + moveVec*step;
+			gl::drawLine(prevPosMove, posMove);
 			prevPosMove = posMove;
 
-			float angle = startAngle+ angleTurn*step*factor;
-
-			vec3 posTurn = vec3(cos(angle)*radius, 0, sin(angle)*radius);
-			vec3 pos = posTurn + posMove - home;
-
-			posTurn.y = y;
-			//gl::drawLine(posTurn, prevPosTurn);
+			float nangle = startAngle + angle*step;
+			vec3 posTurn = vec3(cos(nangle), 0, sin(nangle))*radius;
+			gl::drawLine(posTurn, prevPosTurn);
 			prevPosTurn = posTurn;
+
+
+		
+
+			//vec3 pos = posTurn + posMove - home;
+
+			//posTurn.y = y;
 			
-			gl::color(1,1, 1);
+			
+			/*gl::color(1,1, 1);
 		
 			gl::drawLine(pos, prevPos);
-			prevPos= pos;
-
+			prevPos= pos;*/
+			
 		}
 
 		gl::popMatrices();
+		
 	}
 }
 void ModelRenderer::drawResolveJoint1(NodeRef root)

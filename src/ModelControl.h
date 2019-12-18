@@ -13,8 +13,8 @@ public:
 	
 	float turnAngle = 0;
 	 
-	float moveAngle = 0;
-	float moveDistance = 60;
+	float moveAngle = 0.0;
+	float moveDistance =0;
 
 
 	

@@ -15,6 +15,7 @@ public:
 	ModelConfig *config;
 	std::vector<MeshRef> pool;
 	ci::gl::GlslProgRef	mGlslShadow;
+	ci::gl::GlslProgRef	mGlslShadowFloor;
 };
 
 

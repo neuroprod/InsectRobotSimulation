@@ -165,5 +165,11 @@
     <None Include="..\assets\shadow_shader.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="..\assets\shadow_shader_floor.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="..\assets\shadow_shader_floor.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@ void MeshPool::setup(ModelConfig *_config)
 {
 	config = _config;
 	mGlslShadow = gl::GlslProg::create(loadAsset("shadow_shader.vert"), loadAsset("shadow_shader.frag"));
-
+	mGlslShadowFloor = gl::GlslProg::create(loadAsset("shadow_shader_floor.vert"), loadAsset("shadow_shader_floor.frag"));
 }
 void  MeshPool::clear() 
 {
@@ -27,7 +27,7 @@ MeshRef MeshPool::getMesh(std::string name)
 
 	MeshRef m = Mesh::create();
 	
-	if (name == "floor") { m->setup(name, geom::Plane().size(vec2(10000,10000)), vec3(0, 0, 0),Color(0.8,0.8,0.82), mGlslShadow); };
+	if (name == "floor") { m->setup(name, geom::Plane().size(vec2(10000,10000)), vec3(0, 0, 0),Color(0.8,0.8,0.82), mGlslShadowFloor); };
 	if (name == "body") { m->setup(name, geom::Capsule().radius(40).length(100).direction(vec3(1, 0, 0)), vec3(0, 0, 0), Color(0.42, 0.576, 0.624), mGlslShadow); };
 	if (name == "DMXaxis") { m->setup(name, geom::Cylinder().radius(10.25).height(38).direction(vec3(1,0,0)),vec3(-38 / 2, 0, 0), Color(0.831, 0.475, 0.416), mGlslShadow); };
 	if (name == "2XL430") { m->setup(name, geom::Cube().size(36,	36.0f, 46.5f), vec3(0, 0, 46.5f/2-11.25),Color(0.149, 0.357, 0.416), mGlslShadow); };

@@ -11,7 +11,7 @@ class DebugRenderer
 public:
 	DebugRenderer() {}
 	void setup(NodeRef root,Model * model);
-	void update();
+	void update(glm::vec3 move,float rot);
 
 
 	void draw();
@@ -29,7 +29,7 @@ public:
 	ci::gl::Texture2dRef	mShadowMapTex;
 	int	fboSize = 2048;
 
-
+	glm::mat4 floorMatrix;
 	MeshRef	floor;
 	
 	float cameraDistance = 1500;

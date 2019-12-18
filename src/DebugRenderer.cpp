@@ -44,8 +44,16 @@ void DebugRenderer::setup(NodeRef root, Model *model)
 	gl::enableDepthWrite();
 
 }
-void  DebugRenderer::update() {
+void  DebugRenderer::update(vec3 move,float rot) {
 
+	if (showFloor) {
+		mat4 t = mat4();
+		
+		t =glm::translate(t, move);
+		t = glm::rotate(t, rot, vec3(0, 1, 0));
+		floorMatrix =t*floorMatrix;
+	
+	}
 	gl::enable(GL_POLYGON_OFFSET_FILL);
 	glPolygonOffset(2.0f, 2.0f);
 
@@ -57,7 +65,7 @@ void  DebugRenderer::update() {
 	if(showMesh)mRoot->drawShadow();
 	
 
-	floor->drawShadow();
+	//floor->drawShadow();
 
 
 	gl::disable(GL_POLYGON_OFFSET_FILL);
@@ -82,6 +90,9 @@ void DebugRenderer::draw()
 	MP()->mGlslShadow->uniform("uLightPos", mLightPos);
 	MP()->mGlslShadow->uniform("uShadowMatrix", shadowMatrix);
 	MP()->mGlslShadow->uniform("alpha", 1.f);
+
+
+
 	mRoot->draw(showMesh, showCoordinates);
 
 
@@ -91,7 +102,15 @@ void DebugRenderer::draw()
 	if (showJoint23)modelRenderer.drawResolveJoint23(mRoot);
 
 	if (showFloor) {
+		MP()->mGlslShadowFloor->uniform("uShadowMap", 0);
+		MP()->mGlslShadowFloor->uniform("uLightPos", mLightPos);
+		MP()->mGlslShadowFloor->uniform("uShadowMatrix", shadowMatrix);
+		MP()->mGlslShadowFloor->uniform("alpha", 1.f);
+		gl::pushMatrices();
+		gl::setModelMatrix(floorMatrix);
+		
 		floor->draw();
+		gl::popMatrices();
 	}
 }
 void DebugRenderer::updateCamera()

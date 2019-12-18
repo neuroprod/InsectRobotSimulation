@@ -100,19 +100,32 @@ public:
 			}
 			for (int i = 0; i < 6; i++)
 			{
-				
+				float factor = 1;
 
+				if (!legs[i]->isForward) factor = -1;
+				glm::vec3 dirMove = glm::vec3(cos(mControl->moveAngle), 0, sin(mControl->moveAngle))*( mControl->moveDistance *factor);
+				legs[i]->reset(dirMove, mControl->turnAngle*factor);
 				
-				legs[i]->dirMove = glm::vec3(cos(mControl->moveAngle), 0, sin(mControl->moveAngle));
-				legs[i]->angleTurn = mControl->turnAngle;
-				legs[i]->moveDistance = mControl->moveDistance;
-				legs[i]->reset();
+			
 			}
 		}
 		float posTime2 = currentTime2 / (mConfig->stepTime*2);
 		float posTime = currentTime / mConfig->stepTime;
 		float h = mControl->rootHeight +sinf(( posTime)*3.1415*2) * 5 * (mControl->moveDistance/60);
 
+
+
+		if ((!legSwitch && legs[0]->state==1)   || (legSwitch && legs[1]->state == 0)) {
+			move = legs[0]->targetMoveVec *delta/mConfig->stepTime*2.f;
+			rot = delta*mConfig->stepTime*legs[1]->targetTurnAngle*2.f;;
+		}
+		else 
+		{
+			move = legs[1]->targetMoveVec *delta/mConfig->stepTime*2.f;
+			rot = delta*mConfig->stepTime*legs[0]->targetTurnAngle*2.f;;
+		}
+	
+	
 		/// Inverse kinematics calculation
 		rootMatrix = glm::mat4();
 		rootMatrix = glm::translate(rootMatrix, glm::vec3(mControl->rootOffX, h, mControl->rootOffZ));
@@ -133,6 +146,8 @@ public:
 	float currentTime2 = 0;
 	float currentTime =0;
 	bool legSwitch = false;
+	glm::vec3 move;
+	float rot = 0;
 	ModelControl *mControl;
 	ModelConfig *mConfig;
 	ModelLeg FR;

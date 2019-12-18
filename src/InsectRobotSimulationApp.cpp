@@ -151,9 +151,9 @@ void InsectRobotSimulationApp::update()
 		root->children[i]->children[0]->setRotation(model.legs[i]->shoulder2Angle);
 		root->children[i]->children[0]->children[0]->setRotation(model.legs[i]->shoulder3Angle);
 	}
-
+	
 	root->update();
-	renderer.update();
+	renderer.update(model.move,model.rot);
 
 	config.isDirty = false;
 	control.isDirty = false;
@@ -161,6 +161,7 @@ void InsectRobotSimulationApp::update()
 }
 void InsectRobotSimulationApp::updateGui() 
 {
+
 	static bool showDemoWindow = false;
 	static bool showRenderWindow = true;
 	static bool showControlGui = true;
@@ -188,7 +189,7 @@ void InsectRobotSimulationApp::updateGui()
 	{
 		configGui.show();
 	}
-
+	//console() << getAverageFps() << endl;;
 }
 void InsectRobotSimulationApp::draw()
 {

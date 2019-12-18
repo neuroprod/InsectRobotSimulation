@@ -108,11 +108,6 @@
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\assets\shadow_shader.frag" />
-    <None Include="..\assets\shadow_shader.vert" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
     <ClCompile Include="..\..\..\cinder_master\blocks\Cinder-ImGui\lib\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\src\DebugRenderer.cpp" />
     <ClCompile Include="..\src\InsectRobotSimulationApp.cpp" />
@@ -147,6 +142,12 @@
     <ClInclude Include="..\src\ModelRenderer.h" />
     <ClInclude Include="..\src\Node.h" />
     <ClInclude Include="..\src\Singleton.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\assets\shadow_shader.frag" />
+    <None Include="..\assets\shadow_shader.vert" />
+    <None Include="..\assets\shadow_shader_floor.frag" />
+    <None Include="..\assets\shadow_shader_floor.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

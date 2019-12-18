@@ -27,6 +27,8 @@ public:
 
 		homePoint = position + (dir*config->homeDistance);
 		homePoint.y = 0;
+		homeAngle  = atan2(homePoint.z, homePoint.x);
+		homeRadius = length(homePoint);
 		startPoint = homePoint;
 		targetPoint = homePoint;
 		upperLegSize = config->upperLegSize;
@@ -34,23 +36,76 @@ public:
 
 		stepHeight = config->stepHeight;
 		stepPower = config->stepPower;
-	}
-	void reset() 
-	{
-		float factor = 1;
-		if (!isForward)factor = -1;
 
-		startPoint = targetPoint;
-		startPoint.y = 0;
-		glm::vec3 endPoint = homePoint + dirMove*moveDistance*factor;
-		dirMove = endPoint - startPoint;
-		moveDistance = glm::length(dirMove);
-		if(moveDistance!=0) dirMove /= moveDistance;
+
 	}
+	int state = 0;
+
+	float homeAngle;
+	float homeRadius;
+	float oldDistance;
+	glm::vec3 oldMoveVec =glm::vec3();
+	float oldTurnAngle =0;
+
+	glm::vec3 targetMoveVec = glm::vec3();
+	float targetTurnAngle = 0;
+	glm::vec3 startPoint;
+
+	float 	turnRadius;
+	float startAngle;
+
+	glm::vec3 newMoveVec;
+	float newTurnAngle;
+
+	void reset(glm::vec3 _newMoveVec,float _newTurnAngle) 
+	{
+		newMoveVec = _newMoveVec;
+		newTurnAngle = _newTurnAngle;
+		state = 0;
+
+		
+
+	
+
+
+		/*oldMoveVec = newMoveVec;
+		oldTurnAngle = newTurnAngle;*/
+		
+		
+	
+
+		turnRadius = homeRadius;
+
+		startAngle = atan2(startPoint.z, startPoint.x);
+
+	
+
+	}
+	void setNextState() 
+	{
+		state = 1;
+		startAngle = homeAngle;
+		startPoint = homePoint;
+		targetTurnAngle =  newTurnAngle;
+		
+		targetMoveVec = newMoveVec;
+
+		turnRadius = homeRadius;
+	
+
+
+
+		oldMoveVec = newMoveVec;
+		oldTurnAngle = newTurnAngle;
+		
+	}
+
+
 	void resolve(glm::mat4 &rootMatrix, float time)
 	{
+		
 		float y = 0;
-		float sh = min(stepHeight, moveDistance);
+		float sh = 20;//  min(stepHeight, moveDistanceR);
 
 		if (isForward == 1)
 		{
@@ -67,14 +122,37 @@ public:
 			}
 
 		}
+	
+		if (time < 0.5) 
+		{
+			time =1- time * 2;
 		
-		glm::vec3 targetVec =  dirMove*moveDistance*time;
-		targetVec.y = y;
+		}
+		else
+		{
+			if (state == 0) 
+			{
+				setNextState();	
+				time = 0.5;
+			}
+			time = (time - 0.5)*2;	
+		}
+	
+
+		
+		glm::vec3 moveVec = targetMoveVec*time;
+
+		float angleStep = startAngle+ targetTurnAngle*time;
+		glm::vec3 angleVec = glm::vec3(cos(angleStep)*turnRadius, 0, sin(angleStep)*turnRadius) - startPoint;
+		
+		/////////////////////////////////
+		/////////////////////////////////
+		targetPoint = startPoint + moveVec+ angleVec;
+		targetPoint.y = y;
 
 
-		////////////
-		 targetPoint = startPoint + targetVec;
-
+		/////////////////////////////////
+		/////////////////////////////////
 		//start resolving kinematics
 		//***show resolve Joint 1 in UI***
 
@@ -165,13 +243,21 @@ public:
 		shoulder3Angle = -shoulder3Angle + 3.1415 / 2;
 		if (mFlip)  	shoulder3Angle *= -1;
 	}
-
+	glm::vec3 targetPoint;
+	/*
 	glm::vec3 targetPoint;
 	glm::vec3 startPoint;
 	glm::vec3 dirMove;
+	glm::vec3 moveVec;
 	float angleTurn;
+	float moveDistanceR;
 	float moveDistance;
+	float turnRadius;
+	float startAngle;
+	*/
 
+
+	//////////////////////////
 	bool isSet1;
 	bool isForward;
 	float shoulder1Angle =0;
@@ -197,5 +283,5 @@ public:
 	glm::vec2 solution2;
 
 	glm::vec2 solution;
-
+	
 };
