@@ -29,7 +29,7 @@ public:
 		homePoint.y = 0;
 		homeAngle  = atan2(homePoint.z, homePoint.x);
 		homeRadius = length(homePoint);
-		startPoint = homePoint;
+
 		targetPoint = homePoint;
 		upperLegSize = config->upperLegSize;
 		lowerLegSize = config->lowerLegSize;
@@ -43,40 +43,29 @@ public:
 
 	float homeAngle;
 	float homeRadius;
+
 	float oldDistance;
-	glm::vec3 oldMoveVec =glm::vec3();
-	float oldTurnAngle =0;
+
+
 
 	glm::vec3 targetMoveVec = glm::vec3();
 	float targetTurnAngle = 0;
-	glm::vec3 startPoint;
 
-	float 	turnRadius;
-	float startAngle;
+
 
 	glm::vec3 newMoveVec;
 	float newTurnAngle;
+	glm::vec3 oldMoveVec = glm::vec3();
+	float oldTurnAngle = 0;
+
 
 	void reset(glm::vec3 _newMoveVec,float _newTurnAngle) 
 	{
 		newMoveVec = _newMoveVec;
 		newTurnAngle = _newTurnAngle;
 		state = 0;
-
-		
-
+			
 	
-
-
-		/*oldMoveVec = newMoveVec;
-		oldTurnAngle = newTurnAngle;*/
-		
-		
-	
-
-		turnRadius = homeRadius;
-
-		startAngle = atan2(startPoint.z, startPoint.x);
 
 	
 
@@ -84,13 +73,12 @@ public:
 	void setNextState() 
 	{
 		state = 1;
-		startAngle = homeAngle;
-		startPoint = homePoint;
+		
 		targetTurnAngle =  newTurnAngle;
 		
 		targetMoveVec = newMoveVec;
 
-		turnRadius = homeRadius;
+		
 	
 
 
@@ -105,7 +93,7 @@ public:
 	{
 		
 		float y = 0;
-		float sh = 20;//  min(stepHeight, moveDistanceR);
+		float sh = stepHeight;//, moveDistanceR);
 
 		if (isForward == 1)
 		{
@@ -142,12 +130,12 @@ public:
 		
 		glm::vec3 moveVec = targetMoveVec*time;
 
-		float angleStep = startAngle+ targetTurnAngle*time;
-		glm::vec3 angleVec = glm::vec3(cos(angleStep)*turnRadius, 0, sin(angleStep)*turnRadius) - startPoint;
+		float angleStep = homeAngle+ targetTurnAngle*time;
+		glm::vec3 angleVec = glm::vec3(cos(angleStep)*homeRadius, 0, sin(angleStep)*homeRadius) - homePoint;
 		
 		/////////////////////////////////
 		/////////////////////////////////
-		targetPoint = startPoint + moveVec+ angleVec;
+		targetPoint = homePoint+ moveVec+ angleVec;
 		targetPoint.y = y;
 
 

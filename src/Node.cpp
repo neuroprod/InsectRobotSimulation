@@ -1,6 +1,7 @@
 #pragma
 #include "Node.h"
 #include "cinder/gl/gl.h"
+#include "cinder/PolyLine.h"
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -8,6 +9,7 @@ using namespace std;
 NodeRef Node::create()
 {
 	NodeRef ref = std::make_shared<Node>();
+
 	return ref;
 }
 
@@ -15,6 +17,7 @@ void Node::addChild(NodeRef ref)
 {
 	ref->parent = shared_from_this();
 	children.push_back(ref);
+	
 
 }
 void  Node::removeAllChildren() 
@@ -48,6 +51,8 @@ void Node::setBase(vec3 position, vec3 rotation)
 void Node::setRotation(float r) 
 {
 	currentRotation = r;
+	rotations.push_back( r*100);
+	if (rotations.size() > 1000) rotations.erase(rotations.begin());
 }
 void Node::update() 
 {
@@ -116,4 +121,14 @@ void Node::draw(bool showMesh, bool showCoordinates)
 void Node::addMesh(MeshRef m) 
 {
 	meshes.push_back(m);
+}
+void Node::drawStats() 
+{
+	vector<vec2> r;
+	for (int i = 0; i < rotations.size(); i++) 
+	{
+		r.push_back(vec2(i, rotations[i]));
+	}
+	PolyLine2f a = PolyLine2f(r,false);
+	gl::draw(a);
 }

@@ -38,11 +38,11 @@ void ModelRenderer::drawMove()
 
 
 
-		vec3 home = model->legs[i]->startPoint;
+		vec3 home = model->legs[i]->homePoint;
 		vec3 moveVec = model->legs[i]->targetMoveVec;
 
-		float startAngle = model->legs[i]->startAngle; 
-		float radius = model->legs[i]->turnRadius;
+		float startAngle = model->legs[i]->homeAngle; 
+		float radius = model->legs[i]->homeRadius;
 		float angle = model->legs[i]->targetTurnAngle;
 		
 		

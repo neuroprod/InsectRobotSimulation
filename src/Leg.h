@@ -19,9 +19,19 @@ public:
 	NodeRef sholderUD;
 	NodeRef knee;
 
-	void update();
-	void draw();
 
+
+
+	void update();
+	void draw(int type);
+	void setRotationData(float shoulder1Angle, float shoulder2Angle, float kneeAngle);
+	
+
+	float shoulder1Angle;
+	float shoulder2Angle;
+	float kneeAngle;
+
+	bool useIK = true;
 	ci::vec4 currentPos;
 
 };

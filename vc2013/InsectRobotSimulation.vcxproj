@@ -140,6 +140,7 @@
     <ClInclude Include="..\src\ModelControlGui.h" />
     <ClInclude Include="..\src\ModelLeg.h" />
     <ClInclude Include="..\src\ModelRenderer.h" />
+    <ClInclude Include="..\src\MotorData.h" />
     <ClInclude Include="..\src\Node.h" />
     <ClInclude Include="..\src\Singleton.h" />
   </ItemGroup>

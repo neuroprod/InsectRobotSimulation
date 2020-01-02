@@ -15,7 +15,7 @@ public:
 
 
 	void draw();
-	void showRenderWindow();
+	void showRenderWindow(float fps);
 	void updateCamera();
 	ci::CameraPersp	mCam;
 	NodeRef mRoot;
@@ -38,10 +38,10 @@ public:
 	bool drawHome = true;
 	bool drawMove = true;
 	bool showMesh = true;
-	bool showFloor = false;
+	bool showFloor = true;
 	bool showCoordinates= false;
 	bool showJoint1 =false;
 	bool showJoint23 = false;
-	bool showHomePos = true;
-	bool showMoveVec = true;
+	bool showHomePos = false;
+	bool showMoveVec = false;
 };

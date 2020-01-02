@@ -61,7 +61,7 @@ void main( void )
 	shadow =shadow*0.5+0.5;
 	
 	
-	vec2 uv=step(1.0,mod (vUV*500.0,2.0));
+	vec2 uv=step(1.0,mod (vUV*100.0,2.0));
 	
 	float col =(uv.x +uv.y)*0.5 ;
 	col =col *(1.0-(uv.x +uv.y)*0.5 );

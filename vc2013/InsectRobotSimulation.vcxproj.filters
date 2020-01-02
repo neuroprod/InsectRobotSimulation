@@ -46,6 +46,9 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{bc411297-a1a2-4a7d-b1dc-fbd393547d6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\motorLog">
+      <UniqueIdentifier>{0fe23ca0-4e3c-48c0-aadb-89729a60331e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\InsectRobotSimulationApp.cpp">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="..\src\ModelRenderer.h">
       <Filter>Source Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MotorData.h">
+      <Filter>Source Files\motorLog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

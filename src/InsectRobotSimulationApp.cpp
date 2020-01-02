@@ -50,12 +50,22 @@ class InsectRobotSimulationApp : public App {
 
 	Model model;
 	double previousTime;
+
+	vector<LegRef> legs;
+	bool useIK=true;
+
+	int statsSelection1 = 0;
+	int statsType1 = 0;
+	int statsSelection2 = 3;
+	int statsType2 = 0;
+	bool showStats = true;
 };
 
 void InsectRobotSimulationApp::setup()
 {
 	setWindowSize(1920, 1080);
-	
+	setWindowPos(0, 0);
+
 
 	ui::initialize();
 	ui::GetStyle().WindowRounding = 0.0f;
@@ -84,32 +94,35 @@ void InsectRobotSimulationApp::buildRobot()
 {
 	MP()->clear();
 	root->removeAllChildren();
+	legs.clear();
 
 	frontRight = Leg::create();
 	frontRight->setup("FR", root, config.frontLegStart, config.frontLegAngle, false, &config);
-
+	legs.push_back(frontRight);
 	middleRight = Leg::create();
 	middleRight->setup("MR", root, config.middleLegStart, config.middleLegAngle, false, &config);
-
+	legs.push_back(middleRight);
 	backRight = Leg::create();
 	backRight->setup("BR", root, config.backLegStart, config.backLegAngle, false, &config);
-
+	legs.push_back(backRight);
 
 	frontLeft = Leg::create();
 	vec3 frontstart = config.frontLegStart;
 	frontstart.z *= -1;
 	frontLeft->setup("FL", root, frontstart, -config.frontLegAngle +3.1415, true, &config);
+	legs.push_back(frontLeft);
 
 	vec3 middlestart = config.middleLegStart;
 	middlestart.z *= -1;
 	middleLeft = Leg::create();
 	middleLeft->setup("ML", root, middlestart, -config.middleLegAngle + 3.1415, true, &config);
+	legs.push_back(middleLeft);
 
 	vec3 backstart = config.backLegStart;
 	backstart.z *= -1;
 	backLeft = Leg::create();
 	backLeft->setup("BL", root, backstart, -config.backLegAngle + 3.1415, true, &config);
-
+	legs.push_back(backLeft);
 }
 void InsectRobotSimulationApp::keyDown(KeyEvent event)
 {
@@ -146,10 +159,12 @@ void InsectRobotSimulationApp::update()
 	root->baseMatrix = model.rootMatrix;
 	for (int i = 0; i < 6; i++) 
 	{
+		if (useIK) {
+			legs[i]->setRotationData(model.legs[i]->shoulder1Angle, model.legs[i]->shoulder2Angle, model.legs[i]->shoulder3Angle);
+		}
 		
-		root->children[i]->setRotation(model.legs[i]->shoulder1Angle);
-		root->children[i]->children[0]->setRotation(model.legs[i]->shoulder2Angle);
-		root->children[i]->children[0]->children[0]->setRotation(model.legs[i]->shoulder3Angle);
+		legs[i]->update();
+	
 	}
 	
 	root->update();
@@ -166,12 +181,15 @@ void InsectRobotSimulationApp::updateGui()
 	static bool showRenderWindow = true;
 	static bool showControlGui = true;
 	static bool showConfigGui = true;
+	static bool showLegs= true;
 	{
 		ui::ScopedMainMenuBar menuBar;
 		if (ui::BeginMenu("Window")) {
 			ui::MenuItem("View", nullptr, &showRenderWindow);
 			ui::MenuItem("Control", nullptr, &showControlGui);
 			ui::MenuItem("Config", nullptr, &showConfigGui);
+			ui::MenuItem("Legs", nullptr, &showLegs);
+			ui::MenuItem("Stats", nullptr, &showStats);
 			//ui::MenuItem("TestWindow", nullptr, &showDemoWindow);
 			ui::EndMenu();
 		}
@@ -180,7 +198,7 @@ void InsectRobotSimulationApp::updateGui()
 		ui::ShowDemoWindow();
 	}
 	if (showRenderWindow) {
-		renderer.showRenderWindow();
+		renderer.showRenderWindow(getAverageFps());
 	}
 	if (showControlGui) {
 		controlGui.show();
@@ -189,12 +207,76 @@ void InsectRobotSimulationApp::updateGui()
 	{
 		configGui.show();
 	}
-	//console() << getAverageFps() << endl;;
+	if (showLegs)
+	{
+		
+		ui::ScopedWindow window("Legs");
+		ui::Checkbox("use IK", &useIK);
+		for (int i = 0; i < 6; i++)
+		{
+			string name =legs[i]->mName;
+
+			ImGui::Text(name.c_str());
+			
+			ImGui::Indent();
+			
+			ImGui::SliderFloat((name+"_hipUD").c_str(), &legs[i]->shoulder1Angle, -1.f, 1.f);
+			ImGui::SliderFloat((name + "_hipLR").c_str(), &legs[i]->shoulder2Angle, -1.f, 1.f);
+			ImGui::SliderFloat((name + "_knee").c_str(), &legs[i]->kneeAngle, -1.f, 1.f);
+				
+			ImGui::Unindent();
+			
+		
+		}
+	}
+	if (showStats) {
+		ui::ScopedWindow window("stats");
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "hipUD"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "hipLR"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(.0f, 0.0f, 1.0f, 1.0f), "knee");
+		ImGui::Combo("leg1", &statsSelection1, "Front right\0Middle Right\0Back Right\0Front Left\0Middle Left\0Back Left\0\0");
+		ImGui::Combo("type1", &statsType1, "rotation\0speed\0acceleration\0\0");
+
+		ImGui::Combo("leg2", &statsSelection2, "Front right\0Middle Right\0Back Right\0Front Left\0Middle Left\0Back Left\0\0");
+		ImGui::Combo("type2", &statsType2, "rotation\0speed\0acceleration\0\0");
+	}
 }
 void InsectRobotSimulationApp::draw()
 {
 	gl::clear( Color( 0, 0, 0) );
 	renderer.draw();
+	if (showStats) 
+	{
+		gl::pushMatrices();
+		gl::translate(vec2(10, 770));
+		gl::disableDepthWrite();
+		gl::pushMatrices();
+		
+		gl::color(ColorA(0.1, 0.1, 0.1, 0.8));
+		gl::drawSolidRect(Rectf(0, 0, 1040, 300));
+		gl::color(ColorA(0, 0, 0, 1));
+		gl::drawLine(vec2(0, 150), vec2(1040, 150));
+		gl::color(ColorA(1, 1, 1, 0.5));
+		gl::drawLine(vec2(0, 75), vec2(1040, 75));
+		gl::drawLine(vec2(0,225), vec2(1040, 225));
+		gl::popMatrices();
+
+		gl::pushMatrices();
+		gl::translate(vec2(20, 950-75-800));
+		gl::drawString(legs[statsSelection1]->mName,vec2(-10,-70));
+		legs[statsSelection1]->draw(statsType1);
+		gl::popMatrices();
+		
+		
+		gl::pushMatrices();
+		gl::translate(vec2(20, 950+75-800));
+		gl::drawString(legs[statsSelection2]->mName, vec2(-10, -70));
+		legs[statsSelection2]->draw(statsType2);
+		gl::popMatrices();
+		gl::enableDepthWrite();
+		gl::popMatrices();
+	}
+	
 }
 
 CINDER_APP( InsectRobotSimulationApp, RendererGl(RendererGl::Options().msaa(16)))

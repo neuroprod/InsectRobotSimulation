@@ -45,7 +45,7 @@ void DebugRenderer::setup(NodeRef root, Model *model)
 
 }
 void  DebugRenderer::update(vec3 move,float rot) {
-
+	gl::pushMatrices();
 	if (showFloor) {
 		mat4 t = mat4();
 		
@@ -70,12 +70,13 @@ void  DebugRenderer::update(vec3 move,float rot) {
 
 	gl::disable(GL_POLYGON_OFFSET_FILL);
 	
-
+	gl::popMatrices();
 }
 
 
 void DebugRenderer::draw()
 {
+	gl::pushMatrices();
 	gl::setMatrices(mCam);
 	//gl::drawCoordinateFrame();
 
@@ -112,6 +113,7 @@ void DebugRenderer::draw()
 		floor->draw();
 		gl::popMatrices();
 	}
+	gl::popMatrices();
 }
 void DebugRenderer::updateCamera()
 {
@@ -123,17 +125,21 @@ void DebugRenderer::updateCamera()
 	mCam.setPerspective(30, getWindowAspectRatio(), 100, 4000);
 }
 
-void DebugRenderer::showRenderWindow()
+void DebugRenderer::showRenderWindow(float fps)
 {
 
 
 
 		ui::ScopedWindow window("Renderer");
+		string fpss = to_string(fps) + "fps";
+		ui::Text(fpss.c_str());
+
 		if (ui::DragFloat("Camera Theta", &cameraTheta,0.01,0.001,3.1415/2)) updateCamera();
 		if (ui::DragFloat("Camera Phi", &cameraPhi, 0.01, -3.1415, 3.1415)) updateCamera();
 		if (ui::DragFloat("Camera distance", &cameraDistance, 1, 500, 2000)) updateCamera();
 		ui::Checkbox("show Mesh", &showMesh);
 		ui::Checkbox("show Floor", &showFloor);
+		if (ui::Button("reset floor")) { floorMatrix = mat4(); }
 		ui::Checkbox("show Coordinates", &showCoordinates);
 		ui::Checkbox("show homePos", &showHomePos);
 		ui::Checkbox("show moveVec", &showMoveVec);

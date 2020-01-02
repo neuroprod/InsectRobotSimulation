@@ -10,7 +10,10 @@ class Node : public std::enable_shared_from_this<Node>
 {
 public:
 	static NodeRef create();
-	Node() {};
+	Node() {
+	
+	
+	};
 	void removeAllChildren();
 
 	void addChild(NodeRef ref);
@@ -22,7 +25,7 @@ public:
 
 	void draw(bool showMesh,bool showCoordinates);
 	void drawShadow();
-	
+	std::string name = "root";
 	NodeRef parent =nullptr;
 	std::vector<NodeRef> children;
 
@@ -32,5 +35,10 @@ public:
 	ci::mat4 globalMatrix;
 	ci::mat4 globalMatrixB;
 	std::vector<MeshRef> meshes;
-
+	
+	void drawStats();
+	std::vector<float> rotations;
+	
+	int rotPos = 0;
+	bool showStats = false;
 };
