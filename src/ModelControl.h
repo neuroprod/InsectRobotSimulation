@@ -3,7 +3,7 @@ class ModelControl
 {
 public:
 	bool isDirty = true;
-	float rootHeight=76;
+	float rootHeight=130;
 	float rootOffX = 0;
 	float rootOffZ= 0;
 

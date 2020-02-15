@@ -15,6 +15,10 @@
 #include "ModelControlGui.h"
 #include "CinderImGui.h"
 #include "Model.h"
+#include "cinder/Serial.h"
+
+
+#include "cinder/Log.h"
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -29,7 +33,7 @@ class InsectRobotSimulationApp : public App {
 	void draw() override;
 	void buildRobot();
 	void updateGui();
-
+	void updateSerial();
 	NodeRef root;
 
 	LegRef frontRight;
@@ -52,21 +56,37 @@ class InsectRobotSimulationApp : public App {
 	double previousTime;
 
 	vector<LegRef> legs;
-	bool useIK=true;
+	bool useIK=false;
 
 	int statsSelection1 = 0;
 	int statsType1 = 0;
 	int statsSelection2 = 3;
 	int statsType2 = 0;
 	bool showStats = true;
+
+	SerialRef	mSerial;
 };
 
 void InsectRobotSimulationApp::setup()
 {
+	try {
+		Serial::Device dev = Serial::Device("COM6");
+		
+		mSerial = Serial::create(dev, 115200);
+		if (mSerial->getNumBytesAvailable() > 0)
+		{
+			mSerial->flush();
+		}
+	}
+	catch (SerialExc &exc) {
+		CI_LOG_EXCEPTION("coult not initialize the serial device", exc);
+		
+	}
+
 	setWindowSize(1920, 1080);
 	setWindowPos(0, 0);
-
-
+	gl::enableVerticalSync();
+	setFrameRate(30);
 	ui::initialize();
 	ui::GetStyle().WindowRounding = 0.0f;
 	ui::GetStyle().ChildRounding = 0.0f;
@@ -172,7 +192,53 @@ void InsectRobotSimulationApp::update()
 
 	config.isDirty = false;
 	control.isDirty = false;
+	updateSerial();
+}
+void InsectRobotSimulationApp::updateSerial()
+{
+	
 
+	
+	if (mSerial) 
+	{
+		if (mSerial->getNumBytesAvailable() > 1)
+		{
+			mSerial->flush();
+			//console() << mSerial->readStringUntil('\n') << endl;
+		}
+		const int numPos = 38;
+		uint8_t outBuffer[numPos];
+		int posCount = 0;
+		outBuffer[posCount++] = 255;
+		outBuffer[posCount++] = 255;
+		float adj =- 0.141;
+		for (int i = 0; i < 6; i++)
+		{
+			float factor = 1;
+			if (i > 2)factor = -1;
+
+			int s1 =-1* legs[i]->shoulder1Angle / 3.14159 * 2048 + 2048;
+			int firstVal1 = s1 / 255;
+			outBuffer[posCount++] = firstVal1;
+			outBuffer[posCount++] = s1 - (firstVal1 * 255);
+
+
+			int s2 =factor* legs[i]->shoulder2Angle / 3.14159 * 2048 + 2048;
+			int firstVal2 = s2 / 255;
+			outBuffer[posCount++] = firstVal2;
+			outBuffer[posCount++] = s2 - (firstVal2 * 255);
+
+			int s3 = (legs[i]->kneeAngle+ adj*factor) / 3.14159 * 2048 + 2048;
+			int firstVal3 = s3 / 255;
+			outBuffer[posCount++] = firstVal3;
+			outBuffer[posCount++] = s3 - (firstVal3 * 255);
+		
+		}
+	
+		mSerial->writeBytes(outBuffer, numPos);
+	
+	
+	}
 }
 void InsectRobotSimulationApp::updateGui() 
 {

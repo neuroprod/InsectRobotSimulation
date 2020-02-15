@@ -27,9 +27,9 @@ public:
 	void setRotationData(float shoulder1Angle, float shoulder2Angle, float kneeAngle);
 	
 
-	float shoulder1Angle;
-	float shoulder2Angle;
-	float kneeAngle;
+	float shoulder1Angle =0;
+	float shoulder2Angle=0;
+	float kneeAngle=0;
 
 	bool useIK = true;
 	ci::vec4 currentPos;

@@ -73,17 +73,14 @@ public:
 	}
 	void update(float delta)
 	{	
-		currentTime2 += delta;
+	
 		currentTime += delta;
-		if (currentTime2 > mConfig->stepTime * 2) 
-		{
-			currentTime2 = 0;
-		}
+		
 		if (currentTime > mConfig->stepTime)
 		{
 			currentTime = 0;
 			legSwitch = !legSwitch;
-			
+		
 			if (legSwitch)
 			{
 				for (int i = 0; i < 6; i++)
@@ -98,18 +95,23 @@ public:
 					legs[i]->isForward = !legs[i]->isSet1;
 				}
 			}
+			glm::vec3 dirMove = glm::vec3(cos(mControl->moveAngle), 0, sin(mControl->moveAngle))*(mControl->moveDistance);
+			if (mControl->moveDistance == 0 && mControl->turnAngle == 0) 
+			{
+				console() << "home" << endl;
+			}
 			for (int i = 0; i < 6; i++)
 			{
 				float factor = 1;
 
 				if (!legs[i]->isForward) factor = -1;
-				glm::vec3 dirMove = glm::vec3(cos(mControl->moveAngle), 0, sin(mControl->moveAngle))*( mControl->moveDistance *factor);
-				legs[i]->reset(dirMove, mControl->turnAngle*factor);
 				
+				legs[i]->reset(dirMove *factor, mControl->turnAngle*factor);
+			
 			
 			}
 		}
-		float posTime2 = currentTime2 / (mConfig->stepTime*2);
+	
 		float posTime = currentTime / mConfig->stepTime;
 		float h = mControl->rootHeight;// +sinf((posTime)*3.1415 * 2) * 5 * (mControl->moveDistance / 60);
 
@@ -143,7 +145,7 @@ public:
 
 
 	}
-	float currentTime2 = 0;
+
 	float currentTime =0;
 	bool legSwitch = false;
 	glm::vec3 move;

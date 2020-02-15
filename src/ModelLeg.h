@@ -93,7 +93,7 @@ public:
 	{
 		
 		float y = 0;
-		float sh = stepHeight;//, moveDistanceR);
+		
 
 		if (isForward == 1)
 		{
@@ -101,16 +101,17 @@ public:
 			if (time < 0.5)
 			{
 				float stepr = 1 - time * 2;
-				y = (1 - pow(stepr, stepPower))* sh;
+				y = (1 - pow(stepr, stepPower))* stepHeight;
 			}
 			if (time >= 0.5)
 			{
 				float stepr = (time - 0.5) * 2;
-				y = (1 - pow(stepr, stepPower)) * sh;
+				y = (1 - pow(stepr, stepPower)) * stepHeight;
 			}
 
 		}
 	
+
 		if (time < 0.5) 
 		{
 			time =1- time * 2;
@@ -135,7 +136,11 @@ public:
 		
 		/////////////////////////////////
 		/////////////////////////////////
-		targetPoint = homePoint+ moveVec+ angleVec;
+		glm::vec3 move = moveVec + angleVec;
+	
+
+		targetPoint = homePoint+ moveVec;
+		
 		targetPoint.y = y;
 
 
@@ -231,18 +236,10 @@ public:
 		shoulder3Angle = -shoulder3Angle + 3.1415 / 2;
 		if (mFlip)  	shoulder3Angle *= -1;
 	}
+
+
 	glm::vec3 targetPoint;
-	/*
-	glm::vec3 targetPoint;
-	glm::vec3 startPoint;
-	glm::vec3 dirMove;
-	glm::vec3 moveVec;
-	float angleTurn;
-	float moveDistanceR;
-	float moveDistance;
-	float turnRadius;
-	float startAngle;
-	*/
+
 
 
 	//////////////////////////
