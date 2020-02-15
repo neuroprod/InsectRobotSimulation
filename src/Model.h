@@ -76,8 +76,31 @@ public:
 	
 		currentTime += delta;
 		
+		if (isHome) 
+		{
+			if (mControl->moveDistance != 0 || mControl->turnAngle != 0) 
+			{
+				currentTime = mConfig->stepTime + 0.01;
+				isHome = false;
+				startHome = false;
+				//legSwitch = !legSwitch;
+			}
+			else 
+			{
+			
+				return;
+			}
+		
+		
+		}
 		if (currentTime > mConfig->stepTime)
 		{
+			if (startHome == true && isHome == false) 
+			{
+				isHome = true;
+			
+			}
+
 			currentTime = 0;
 			legSwitch = !legSwitch;
 		
@@ -98,7 +121,11 @@ public:
 			glm::vec3 dirMove = glm::vec3(cos(mControl->moveAngle), 0, sin(mControl->moveAngle))*(mControl->moveDistance);
 			if (mControl->moveDistance == 0 && mControl->turnAngle == 0) 
 			{
-				console() << "home" << endl;
+				startHome = true;
+			}
+			else {
+				startHome = false;
+
 			}
 			for (int i = 0; i < 6; i++)
 			{
@@ -107,7 +134,7 @@ public:
 				if (!legs[i]->isForward) factor = -1;
 				
 				legs[i]->reset(dirMove *factor, mControl->turnAngle*factor);
-			
+				
 			
 			}
 		}
@@ -145,7 +172,8 @@ public:
 
 
 	}
-
+	bool startHome =false;
+	bool isHome = false;
 	float currentTime =0;
 	bool legSwitch = false;
 	glm::vec3 move;

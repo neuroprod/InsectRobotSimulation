@@ -5,7 +5,7 @@ class ModelConfig
 public: 
 	bool isDirty = true;
 
-	float homeDistance = 165;
+	float homeDistance = 100;
 
 	float upperLegSize = 80;
 	float lowerLegSize = 130;

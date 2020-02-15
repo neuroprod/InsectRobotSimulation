@@ -11,10 +11,17 @@ void  ModelControlGui:: show()
 	if (ui::DragFloat("move Angle", &control->moveAngle, 0.01, -3.1415, 3.1415)) control->isDirty = true;
 
 	if (ui::DragFloat("turnAngle", &control->turnAngle, 0.01, -3.1415 / 4, 3.1415 / 4)) control->isDirty = true;
-	if (ui::Button("reset2"))
+	if (ui::Button("stop"))
 	{
 		control->isDirty = true;
 		control->moveDistance = 0;
+		control->moveAngle = 0;
+		control->turnAngle = 0;
+	}
+	if (ui::Button("move"))
+	{
+		control->isDirty = true;
+		control->moveDistance = 30;
 		control->moveAngle = 0;
 		control->turnAngle = 0;
 	}
