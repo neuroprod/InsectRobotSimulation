@@ -38,6 +38,8 @@ public:
 	}
 	void setConfig(ModelConfig * config) 
 	{
+
+
 		mConfig = config;
 		FR.setBase(config->frontLegStart, glm::vec3(0, config->frontLegAngle, 3.1415 / 2), config, false);
 
@@ -73,6 +75,11 @@ public:
 	}
 	void update(float delta)
 	{	
+
+#ifdef LOCKAL_DEV
+		console() << "KAKKA"<< endl;
+#endif 
+
 	
 		currentTime += delta/mControl->timeScale;
 		

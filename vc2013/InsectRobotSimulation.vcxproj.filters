@@ -134,29 +134,29 @@
     <ClInclude Include="..\src\Singleton.h">
       <Filter>Source Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ModelConfig.h">
-      <Filter>Source Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ModelControl.h">
-      <Filter>Source Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\ModelControlGui.h">
       <Filter>Source Files\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ModelConfigGui.h">
       <Filter>Source Files\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Model.h">
-      <Filter>Source Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ModelLeg.h">
-      <Filter>Source Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\ModelRenderer.h">
       <Filter>Source Files\view</Filter>
     </ClInclude>
     <ClInclude Include="..\src\MotorData.h">
       <Filter>Source Files\motorLog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Model.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelConfig.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelControl.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelLeg.h">
+      <Filter>Source Files\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 
 
-
+#define LOCKAL_DEV
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"

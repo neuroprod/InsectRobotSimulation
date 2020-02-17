@@ -54,7 +54,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\include;..\..\..\cinder_master\include;..\..\..\cinder_master\blocks\Cinder-ImGui\lib\imgui;..\..\..\cinder_master\blocks\Cinder-ImGui\include;..\..\cinder_master\blocks\Cinder-Serial\include;..\..\cinder_master\blocks\Cinder-Serial\lib\serial\include;..\..\cinder_master\blocks\Cinder-Serial\lib\serial\include\serial</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\..\..\cinder_master\include;..\..\..\cinder_master\blocks\Cinder-ImGui\lib\imgui;..\..\..\cinder_master\blocks\Cinder-ImGui\include;..\Arduino\libraries\InsectRobot</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;_WINDOWS;NOMINMAX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -78,7 +78,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\include;..\..\..\cinder_master\include;..\..\..\cinder_master\blocks\Cinder-ImGui\lib\imgui;..\..\..\cinder_master\blocks\Cinder-ImGui\include;..\..\cinder_master\blocks\Cinder-Serial\include;..\..\cinder_master\blocks\Cinder-Serial\lib\serial\include;..\..\cinder_master\blocks\Cinder-Serial\lib\serial\include\serial</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\..\..\cinder_master\include;..\..\..\cinder_master\blocks\Cinder-ImGui\lib\imgui;..\..\..\cinder_master\blocks\Cinder-ImGui\include;..\Arduino\libraries\InsectRobot</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;_WINDOWS;NOMINMAX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader />
@@ -124,6 +124,10 @@
     <ClCompile Include="..\src\Node.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Model.h" />
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelConfig.h" />
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelControl.h" />
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelLeg.h" />
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\..\..\cinder_master\blocks\Cinder-ImGui\include\CinderImGui.h" />
     <ClInclude Include="..\..\..\cinder_master\blocks\Cinder-ImGui\lib\imgui\imconfig.h" />
@@ -133,12 +137,8 @@
     <ClInclude Include="..\src\Leg.h" />
     <ClInclude Include="..\src\Mesh.h" />
     <ClInclude Include="..\src\MeshPool.h" />
-    <ClInclude Include="..\src\Model.h" />
-    <ClInclude Include="..\src\ModelConfig.h" />
     <ClInclude Include="..\src\ModelConfigGui.h" />
-    <ClInclude Include="..\src\ModelControl.h" />
     <ClInclude Include="..\src\ModelControlGui.h" />
-    <ClInclude Include="..\src\ModelLeg.h" />
     <ClInclude Include="..\src\ModelRenderer.h" />
     <ClInclude Include="..\src\MotorData.h" />
     <ClInclude Include="..\src\Node.h" />
