@@ -74,7 +74,7 @@ public:
 	void update(float delta)
 	{	
 	
-		currentTime += delta;
+		currentTime += delta/mControl->timeScale;
 		
 		if (isHome) 
 		{
@@ -145,13 +145,13 @@ public:
 
 
 		if ((!legSwitch && legs[0]->state==1)   || (legSwitch && legs[1]->state == 0)) {
-			move = legs[0]->targetMoveVec *delta/mConfig->stepTime*2.f;
-			rot = delta/mConfig->stepTime*legs[1]->targetTurnAngle*2.f;;
+			move = legs[0]->targetMoveVec *delta/mConfig->stepTime*2.f/mControl->timeScale;
+			rot = delta/mConfig->stepTime*legs[1]->targetTurnAngle*2.f/mControl->timeScale;;
 		}
 		else 
 		{
-			move = legs[1]->targetMoveVec *delta/mConfig->stepTime*2.f;
-			rot = delta/mConfig->stepTime*legs[0]->targetTurnAngle*2.f;;
+			move = legs[1]->targetMoveVec *delta/mConfig->stepTime*2.f/mControl->timeScale;
+			rot = delta/mConfig->stepTime*legs[0]->targetTurnAngle*2.f/mControl->timeScale;;
 		}
 	
 	

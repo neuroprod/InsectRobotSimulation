@@ -23,6 +23,16 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
+union U {
+	int16_t s;
+
+	struct Byte {
+		int8_t c1, c2;
+	}
+	byte;
+};
+
+
 class InsectRobotSimulationApp : public App {
   public:
 	void setup() override;
@@ -56,7 +66,7 @@ class InsectRobotSimulationApp : public App {
 	double previousTime;
 
 	vector<LegRef> legs;
-	bool useIK=false;
+	bool useIK=true;
 
 	int statsSelection1 = 0;
 	int statsType1 = 0;
@@ -64,7 +74,12 @@ class InsectRobotSimulationApp : public App {
 	int statsType2 = 0;
 	bool showStats = true;
 
-	SerialRef	mSerial;
+	int8_t input[16];
+	int8_t inByte;
+	int inCount;
+	SerialRef	mSerialIn;
+
+	SerialRef	mSerialOut;
 };
 
 void InsectRobotSimulationApp::setup()
@@ -72,15 +87,28 @@ void InsectRobotSimulationApp::setup()
 	try {
 		Serial::Device dev = Serial::Device("COM6");
 		
-		mSerial = Serial::create(dev, 115200);
-		if (mSerial->getNumBytesAvailable() > 0)
+		mSerialOut = Serial::create(dev, 115200);
+		if (mSerialOut->getNumBytesAvailable() > 0)
 		{
-			mSerial->flush();
+			mSerialOut->flush();
 		}
 	}
 	catch (SerialExc &exc) {
-		CI_LOG_EXCEPTION("coult not initialize the serial device", exc);
+		CI_LOG_EXCEPTION("coult not initialize the serial OUT", exc);
 		
+	}
+	try {
+		Serial::Device dev = Serial::Device("COM5");
+
+		mSerialIn = Serial::create(dev, 115200);
+		if (mSerialIn->getNumBytesAvailable() > 0)
+		{
+			mSerialIn->flush();
+		}
+	}
+	catch (SerialExc &exc) {
+		CI_LOG_EXCEPTION("coult not initialize the serial IN", exc);
+
 	}
 
 	setWindowSize(1920, 1080);
@@ -196,46 +224,117 @@ void InsectRobotSimulationApp::update()
 }
 void InsectRobotSimulationApp::updateSerial()
 {
-	
+	if (mSerialIn) 
+	{
+		while (mSerialIn->getNumBytesAvailable() > 0)
+		{
+			int8_t currentByte = mSerialIn->readByte();
+			
+			if ((int)inByte == 100 && currentByte == 100)
+			{
+				inCount = 0;
+			}
+			else
+			{
+				input[inCount] = currentByte;
+				
+				inCount++;
+				if (inCount == 14)
+				{
+					U u;
+					u.byte.c1 = input[0];
+					u.byte.c2 = input[1];
+					float lX = u.s;
+				
+					u.byte.c1 = input[2];
+					u.byte.c2 = input[3];
+					float lY = u.s;
+
+					u.byte.c1 = input[4];
+					u.byte.c2 = input[5];
+					float lZ = u.s;
+
+					u.byte.c1 = input[6];
+					u.byte.c2 = input[7];
+					float rX = u.s;
+
+					u.byte.c1 = input[8];
+					u.byte.c2 = input[9];
+					float rY = u.s;
+
+					u.byte.c1 = input[10];
+					u.byte.c2 = input[11];
+					float rZ = u.s;
+
+					vec2 r = vec2(rX, rY);
+					float size =min(1000.f, glm::length(r))/1000.f;
+					float angle = atan2(r.x, r.y);
+
+					control.isDirty = true;
+					control.moveAngle = angle;
+					control.moveDistance = size * 45;
+					control.turnAngle = rZ / 1000.0f *0.13f;
+					if(lY<0){
+						control.timeScale =1+ lY / -500;
+					}
+					else {
+						control.timeScale =1.f - (lY /1000.f*0.8f);
+					}
+
+					
+
+					
+
+
+					inCount = 0;
+					
+
+				}
+			}
+			inByte = currentByte;
+
+		}
+	}
 
 	
-	if (mSerial) 
+	if (mSerialOut)
 	{
-		if (mSerial->getNumBytesAvailable() > 1)
+		if (mSerialOut->getNumBytesAvailable() > 1)
 		{
-			mSerial->flush();
+			mSerialOut->flush();
 			//console() << mSerial->readStringUntil('\n') << endl;
 		}
 		const int numPos = 38;
-		uint8_t outBuffer[numPos];
+		int8_t outBuffer[numPos];
 		int posCount = 0;
-		outBuffer[posCount++] = 255;
-		outBuffer[posCount++] = 255;
+		outBuffer[posCount++] = 100;
+		outBuffer[posCount++] = 100;
 		float adj =- 0.141;
+		U u;
 		for (int i = 0; i < 6; i++)
 		{
 			float factor = 1;
 			if (i > 2)factor = -1;
 
 			int s1 =-1* legs[i]->shoulder1Angle / 3.14159 * 2048 + 2048;
-			int firstVal1 = s1 / 255;
-			outBuffer[posCount++] = firstVal1;
-			outBuffer[posCount++] = s1 - (firstVal1 * 255);
+			u.s = s1;
+			outBuffer[posCount++] =u.byte.c1;
+			outBuffer[posCount++] = u.byte.c2;
 
 
 			int s2 =factor* legs[i]->shoulder2Angle / 3.14159 * 2048 + 2048;
-			int firstVal2 = s2 / 255;
-			outBuffer[posCount++] = firstVal2;
-			outBuffer[posCount++] = s2 - (firstVal2 * 255);
+			u.s = s2;
+			outBuffer[posCount++] = u.byte.c1;
+			outBuffer[posCount++] = u.byte.c2;
 
 			int s3 = (legs[i]->kneeAngle+ adj*factor) / 3.14159 * 2048 + 2048;
-			int firstVal3 = s3 / 255;
-			outBuffer[posCount++] = firstVal3;
-			outBuffer[posCount++] = s3 - (firstVal3 * 255);
+			u.s = s3;
+			outBuffer[posCount++] = u.byte.c1;
+			outBuffer[posCount++] = u.byte.c2;
 		
 		}
 	
-		mSerial->writeBytes(outBuffer, numPos);
+		mSerialOut->writeBytes(outBuffer, numPos);
 	
 	
 	}

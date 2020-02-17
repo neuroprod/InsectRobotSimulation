@@ -15,7 +15,7 @@ public:
 	 
 	float moveAngle = 0.0;
 	float moveDistance =0;
-
+	float timeScale = 1;
 
 	
 
