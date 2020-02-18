@@ -73,11 +73,13 @@ public:
 	
 
 	}
+
+
 	void update(float delta)
 	{	
 
 #ifdef LOCKAL_DEV
-		console() << "KAKKA"<< endl;
+	
 #endif 
 
 	
@@ -147,7 +149,7 @@ public:
 		}
 	
 		float posTime = currentTime / mConfig->stepTime;
-		float h = mControl->rootHeight;// +sinf((posTime)*3.1415 * 2) * 5 * (mControl->moveDistance / 60);
+	
 
 
 
@@ -161,7 +163,7 @@ public:
 			rot = delta/mConfig->stepTime*legs[0]->targetTurnAngle*2.f/mControl->timeScale;;
 		}
 	
-	
+		float h = mControl->rootHeight;// +sinf((posTime)*3.1415 * 2) * 5 * (mControl->moveDistance / 60);
 		/// Inverse kinematics calculation
 		rootMatrix = glm::mat4();
 		rootMatrix = glm::translate(rootMatrix, glm::vec3(mControl->rootOffX, h, mControl->rootOffZ));
@@ -178,6 +180,24 @@ public:
 		}
 
 
+	}
+	void updateIK() 
+	{
+		float h = mControl->rootHeight;
+		rootMatrix = glm::mat4();
+		rootMatrix = glm::translate(rootMatrix, glm::vec3(mControl->rootOffX, h, mControl->rootOffZ));
+
+		rootMatrix = glm::rotate(rootMatrix, mControl->rootRotX, glm::vec3(1, 0, 0));
+		rootMatrix = glm::rotate(rootMatrix, mControl->rootRotY, glm::vec3(0, 1, 0)); //+ sinf((posTime2)*3.1415 * 2) * 0.04f * (mControl->moveDistance / 60), glm::vec3(0, 1, 0));
+		rootMatrix = glm::rotate(rootMatrix, mControl->rootRotZ, glm::vec3(0, 0, 1));//+ (mControl->moveDistance / 60)*0.05f, glm::vec3(0, 0, 1));
+
+
+		for (int i = 0; i < 6; i++)
+		{
+			legs[i]->resolveKinematics(rootMatrix);
+
+		}
+	
 	}
 	bool startHome =false;
 	bool isHome = false;

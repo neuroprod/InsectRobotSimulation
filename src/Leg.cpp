@@ -75,14 +75,14 @@ void  Leg::draw(int type)
 {
 	
 		gl::color(1, 0, 0);
-		sholderLR->drawStats();
+		sholderLR->drawStats(type);
 	
 	
 		gl::color(0, 1, 0);
-		sholderUD->drawStats();
+		sholderUD->drawStats(type);
 	
 		gl::color(0, 0, 1);
-		knee->drawStats();
+		knee->drawStats(type);
 	
 	
 

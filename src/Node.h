@@ -36,9 +36,9 @@ public:
 	ci::mat4 globalMatrixB;
 	std::vector<MeshRef> meshes;
 	
-	void drawStats();
+	void drawStats(int type);
 	std::vector<float> rotations;
-	
+	int showCount = 5;
 	int rotPos = 0;
 	bool showStats = false;
 };

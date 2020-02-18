@@ -111,9 +111,11 @@ void Node::draw(bool showMesh, bool showCoordinates)
 	//gl::drawStringCentered("test", vec2(0, 0));
 	gl::popMatrices();
 
-
+	int c = 0;
 	for (auto child : children)
 	{
+		if (c >  showCount)return;
+			c++;
 		child->draw(showMesh, showCoordinates);
 	}
 }
@@ -122,13 +124,33 @@ void Node::addMesh(MeshRef m)
 {
 	meshes.push_back(m);
 }
-void Node::drawStats() 
+void Node::drawStats(int type) 
 {
-	vector<vec2> r;
-	for (int i = 0; i < rotations.size(); i++) 
-	{
-		r.push_back(vec2(i, rotations[i]));
+	if (type == 0) {
+		vector<vec2> r;
+		for (int i = 0; i < rotations.size(); i++)
+		{
+			r.push_back(vec2(i, rotations[i]));
+	 	}
+		PolyLine2f a = PolyLine2f(r, false);
+		gl::draw(a);
+	}if (type == 1) {
+		vector<vec2> r;
+		for (int i = 1; i < rotations.size(); i++)
+		{
+			r.push_back(vec2(i, (rotations[i-1]-rotations[i])*10));
+		}
+		PolyLine2f a = PolyLine2f(r, false);
+		gl::draw(a);
+	}if (type == 2) {
+		vector<vec2> r;
+		for (int i = 2; i < rotations.size(); i++)
+		{
+			float s1 = rotations[i - 2] - rotations[i-1];
+			float s2 = rotations[i - 1] - rotations[i];
+			r.push_back(vec2(i, (s1 - s2) * 10));
+		}
+		PolyLine2f a = PolyLine2f(r, false);
+		gl::draw(a);
 	}
-	PolyLine2f a = PolyLine2f(r,false);
-	gl::draw(a);
 }

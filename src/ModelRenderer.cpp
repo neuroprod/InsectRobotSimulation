@@ -56,7 +56,7 @@ void ModelRenderer::drawMove()
 		{
 			
 
-			gl::color(0, 0, 1);
+			gl::color(1, 1, 1);
 			float step = (float)j / (numSteps);
 			
 

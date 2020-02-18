@@ -67,7 +67,7 @@ class InsectRobotSimulationApp : public App {
 
 	vector<LegRef> legs;
 	bool useIK=true;
-
+	bool useWalk =false;
 	int statsSelection1 = 0;
 	int statsType1 = 0;
 	int statsSelection2 = 3;
@@ -202,15 +202,22 @@ void InsectRobotSimulationApp::update()
 	float delta =  currentTime-previousTime;
 
 	previousTime = currentTime;
-	
-	model.update(delta);
+	if (useWalk && useIK) {
+		model.update(delta);
+	}
+	else 
+	{
+		model.updateIK();
+	}
 	root->baseMatrix = model.rootMatrix;
 	for (int i = 0; i < 6; i++) 
 	{
-		if (useIK) {
+		if (useWalk && useIK) {
 			legs[i]->setRotationData(model.legs[i]->shoulder1Angle, model.legs[i]->shoulder2Angle, model.legs[i]->shoulder3Angle);
 		}
-		
+		else if (useIK) {
+			legs[i]->setRotationData(model.legs[i]->shoulder1Angle, model.legs[i]->shoulder2Angle, model.legs[i]->shoulder3Angle);
+		}
 		legs[i]->update();
 	
 	}
@@ -376,21 +383,35 @@ void InsectRobotSimulationApp::updateGui()
 	{
 		
 		ui::ScopedWindow window("Legs");
-		ui::Checkbox("use IK", &useIK);
-		for (int i = 0; i < 6; i++)
-		{
-			string name =legs[i]->mName;
+		ui::Checkbox("use IK", &useIK); 
+		ui::SameLine();
+		ui::Checkbox("use Walk", &useWalk);
+		if (!useIK) {
+			for (int i = 0; i < 6; i++)
+			{
+				string name = legs[i]->mName;
 
-			ImGui::Text(name.c_str());
-			
-			ImGui::Indent();
-			
-			ImGui::SliderFloat((name+"_hipUD").c_str(), &legs[i]->shoulder1Angle, -1.f, 1.f);
-			ImGui::SliderFloat((name + "_hipLR").c_str(), &legs[i]->shoulder2Angle, -1.f, 1.f);
-			ImGui::SliderFloat((name + "_knee").c_str(), &legs[i]->kneeAngle, -1.f, 1.f);
-				
-			ImGui::Unindent();
-			
+				ImGui::Text(name.c_str());
+
+				ImGui::Indent();
+
+				ImGui::SliderFloat((name + "_hipUD").c_str(), &legs[i]->shoulder1Angle, -1.f, 1.f);
+				ImGui::SliderFloat((name + "_hipLR").c_str(), &legs[i]->shoulder2Angle, -1.f, 1.f);
+				ImGui::SliderFloat((name + "_knee").c_str(), &legs[i]->kneeAngle, -1.f, 1.f);
+
+				ImGui::Unindent();
+
+
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 6; i++)
+			{
+				string name = legs[i]->mName;
+				ImGui::SliderFloat3(name.c_str(), &model.legs[i]->targetPoint[0], -300,300);
+
+			}
 		
 		}
 	}
@@ -432,7 +453,7 @@ void InsectRobotSimulationApp::draw()
 		legs[statsSelection1]->draw(statsType1);
 		gl::popMatrices();
 		
-		
+	
 		gl::pushMatrices();
 		gl::translate(vec2(20, 950+75-800));
 		gl::drawString(legs[statsSelection2]->mName, vec2(-10, -70));

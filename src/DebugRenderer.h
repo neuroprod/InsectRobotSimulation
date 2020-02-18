@@ -32,9 +32,9 @@ public:
 	glm::mat4 floorMatrix;
 	MeshRef	floor;
 	
-	float cameraDistance = 1500;
-	float cameraTheta = 1.1;
-	float cameraPhi = 1;
+	float cameraDistance =1500;
+	float cameraTheta = 1.041;
+	float cameraPhi = 0.940;
 	bool drawHome = true;
 	bool drawMove = true;
 	bool showMesh = true;
