@@ -158,6 +158,21 @@
     <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelLeg.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector3.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector2.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector4.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Matrix44.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Quaternion.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">

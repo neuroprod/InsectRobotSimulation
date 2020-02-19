@@ -1,5 +1,6 @@
 #pragma once
-#include "glm\glm.hpp"
+
+#include "Vector3.h"
 class ModelConfig 
 {
 public: 
@@ -18,11 +19,11 @@ public:
 
 
 	float frontLegAngle =3.1415/4 ;
-	glm::vec3 frontLegStart = glm::vec3(70, 0, 80);
+	Vector3 frontLegStart = Vector3(70, 0, 80);
 
 	float middleLegAngle = 0;
-	glm::vec3 middleLegStart = glm::vec3(0, 0, 100);
+	Vector3 middleLegStart = Vector3(0, 0, 100);
 
 	float backLegAngle = -3.1415 / 4;
-	glm::vec3 backLegStart = glm::vec3(-70, 0, 80);
+	Vector3 backLegStart = Vector3(-70, 0, 80);
 };

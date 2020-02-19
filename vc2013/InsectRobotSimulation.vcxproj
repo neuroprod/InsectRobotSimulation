@@ -124,10 +124,15 @@
     <ClCompile Include="..\src\Node.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Matrix44.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Model.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelConfig.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelControl.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelLeg.h" />
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Quaternion.h" />
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector2.h" />
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector3.h" />
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector4.h" />
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\..\..\cinder_master\blocks\Cinder-ImGui\include\CinderImGui.h" />
     <ClInclude Include="..\..\..\cinder_master\blocks\Cinder-ImGui\lib\imgui\imconfig.h" />

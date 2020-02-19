@@ -1,6 +1,6 @@
 #pragma once
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include "Matrix44.h"
+#include "Vector3.h"
 #include "ModelConfig.h"
 #include "cinder/app/App.h"
 using namespace ci::app;
@@ -13,10 +13,10 @@ public:
 	{
 	
 	}
-	void setBase(glm::vec3 position, glm::vec3 rotation, ModelConfig * config, bool flip)
+	void setBase(Vector3 position, Vector3 rotation, ModelConfig * config, bool flip)
 	{
 		mFlip = flip;
-		baseMatrix = glm::mat4();
+		Matrix44  baseMatrix = Matrix44();
 		baseMatrix = glm::translate(baseMatrix, position);
 		baseMatrix = glm::rotate(baseMatrix, rotation.x, glm::vec3(1, 0, 0));
 		baseMatrix = glm::rotate(baseMatrix, rotation.y, glm::vec3(0, 1, 0));
@@ -157,7 +157,7 @@ public:
 		targetPointLocal = inversMatrix*glm::vec4(targetPoint.x, targetPoint.y, targetPoint.z, 1);
 
 		targetPointLocalFlat = glm::vec3(0, targetPointLocal.y, targetPointLocal.z);
-
+		//calculate angle of joint 1
 		shoulder1Angle = atan2(0, 1) - atan2(targetPointLocalFlat.y, targetPointLocalFlat.z);
 
 
@@ -229,8 +229,6 @@ public:
 		{
 			solution = solution1;
 		}
-
-
 		//final angles
 
 		shoulder2Angle = atan2(solution.y - posJoint.y, solution.x - posJoint.x) - atan2(1, 0);
@@ -238,6 +236,8 @@ public:
 		shoulder3Angle = atan2(posJoint.y - solution.y, posJoint.x - solution.x) - atan2(posTarget.y - solution.y, posTarget.x - solution.x);
 		shoulder3Angle = -shoulder3Angle + 3.1415 / 2;
 		if (mFlip)  	shoulder3Angle *= -1;
+
+		
 	}
 
 	glm::vec3 targetPoint;
