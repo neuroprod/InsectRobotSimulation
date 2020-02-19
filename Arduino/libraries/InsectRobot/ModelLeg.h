@@ -221,7 +221,7 @@ public:
 		solution2.y = y2 - ry;
 
 		//we want the top solution
-		if (solution2.y > solution1.y)
+		if (solution2.x > solution1.x)
 		{
 			solution = solution2;
 		}
