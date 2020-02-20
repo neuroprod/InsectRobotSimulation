@@ -120,7 +120,7 @@
     <ClCompile Include="..\Arduino\libraries\InsectRobot\Vector3.cpp">
       <Filter>Source Files\core\math</Filter>
     </ClCompile>
-    <ClCompile Include="..\Arduino\libraries\InsectRobot\Convertions.cpp">
+    <ClCompile Include="..\src\Convertions.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
   </ItemGroup>
@@ -170,9 +170,6 @@
     <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelLeg.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Arduino\libraries\InsectRobot\Quaternion.h">
-      <Filter>Source Files\core\math</Filter>
-    </ClInclude>
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector2.h">
       <Filter>Source Files\core\math</Filter>
     </ClInclude>
@@ -185,7 +182,7 @@
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Matrix44.h">
       <Filter>Source Files\core\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\Arduino\libraries\InsectRobot\Convertions.h">
+    <ClInclude Include="..\src\Convertions.h">
       <Filter>Source Files\utils</Filter>
     </ClInclude>
   </ItemGroup>
