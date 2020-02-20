@@ -109,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cinder_master\blocks\Cinder-ImGui\lib\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\Arduino\libraries\InsectRobot\Convertions.cpp" />
+    <ClCompile Include="..\Arduino\libraries\InsectRobot\Matrix44.cpp" />
+    <ClCompile Include="..\Arduino\libraries\InsectRobot\Vector3.cpp" />
     <ClCompile Include="..\src\DebugRenderer.cpp" />
     <ClCompile Include="..\src\InsectRobotSimulationApp.cpp" />
     <ClCompile Include="..\..\..\cinder_master\blocks\Cinder-ImGui\src\CinderImGui.cpp" />
@@ -124,6 +127,7 @@
     <ClCompile Include="..\src\Node.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Convertions.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Matrix44.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Model.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelConfig.h" />

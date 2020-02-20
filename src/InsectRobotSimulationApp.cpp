@@ -17,7 +17,7 @@
 #include "Model.h"
 #include "cinder/Serial.h"
 
-
+#include "Convertions.h"
 #include "cinder/Log.h"
 using namespace ci;
 using namespace ci::app;
@@ -145,28 +145,28 @@ void InsectRobotSimulationApp::buildRobot()
 	legs.clear();
 
 	frontRight = Leg::create();
-	frontRight->setup("FR", root, config.frontLegStart, config.frontLegAngle, false, &config);
+	frontRight->setup("FR", root,Con::to( config.frontLegStart), config.frontLegAngle, false, &config);
 	legs.push_back(frontRight);
 	middleRight = Leg::create();
-	middleRight->setup("MR", root, config.middleLegStart, config.middleLegAngle, false, &config);
+	middleRight->setup("MR", root, Con::to(config.middleLegStart), config.middleLegAngle, false, &config);
 	legs.push_back(middleRight);
 	backRight = Leg::create();
-	backRight->setup("BR", root, config.backLegStart, config.backLegAngle, false, &config);
+	backRight->setup("BR", root, Con::to(config.backLegStart), config.backLegAngle, false, &config);
 	legs.push_back(backRight);
 
 	frontLeft = Leg::create();
-	vec3 frontstart = config.frontLegStart;
+	vec3 frontstart = Con::to(config.frontLegStart);
 	frontstart.z *= -1;
 	frontLeft->setup("FL", root, frontstart, -config.frontLegAngle +3.1415, true, &config);
 	legs.push_back(frontLeft);
 
-	vec3 middlestart = config.middleLegStart;
+	vec3 middlestart = Con::to(config.middleLegStart);
 	middlestart.z *= -1;
 	middleLeft = Leg::create();
 	middleLeft->setup("ML", root, middlestart, -config.middleLegAngle + 3.1415, true, &config);
 	legs.push_back(middleLeft);
 
-	vec3 backstart = config.backLegStart;
+	vec3 backstart = Con::to(config.backLegStart);
 	backstart.z *= -1;
 	backLeft = Leg::create();
 	backLeft->setup("BL", root, backstart, -config.backLegAngle + 3.1415, true, &config);
@@ -209,7 +209,7 @@ void InsectRobotSimulationApp::update()
 	{
 		model.updateIK();
 	}
-	root->baseMatrix = model.rootMatrix;
+	root->baseMatrix = Con::to(model.rootMatrix);
 	for (int i = 0; i < 6; i++) 
 	{
 		if (useWalk && useIK) {
@@ -223,7 +223,7 @@ void InsectRobotSimulationApp::update()
 	}
 	
 	root->update();
-	renderer.update(model.move,model.rot);
+	renderer.update(Con::to(model.move),model.rot);
 
 	config.isDirty = false;
 	control.isDirty = false;
@@ -409,7 +409,7 @@ void InsectRobotSimulationApp::updateGui()
 			for (int i = 0; i < 6; i++)
 			{
 				string name = legs[i]->mName;
-				ImGui::SliderFloat3(name.c_str(), &model.legs[i]->targetPoint[0], -300,300);
+//				ImGui::SliderFloat3(name.c_str(), &model.legs[i]->targetPoint[0], -300,300);
 
 			}
 		

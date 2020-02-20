@@ -1,6 +1,6 @@
-
+#include <math.h>
 #include <DynamixelSDK.h>
-
+#include <Model.h>
 
 #define ADDRESS_TORQUE_ENABLE           64
 #define ADDRESS_GOAL_POSITION           116

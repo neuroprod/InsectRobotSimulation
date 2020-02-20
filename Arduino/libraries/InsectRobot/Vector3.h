@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 class Vector3 
 {
 
@@ -17,5 +18,31 @@ public:
 	
 	};
 
+
+	static float length(const Vector3 &in);
+
+
+
+
+
+	Vector3 operator + (const Vector3 &in) {
+		Vector3 res(x+in.x, y + in.y, z + in.z);
+		return res;
+	}
+	
+	Vector3 operator - (const Vector3 &in) {
+		Vector3 res(x - in.x, y - in.y, z - in.z);
+		return res;
+	}
+
+	Vector3 operator * (float a) {
+		Vector3 res(x*a,y*a,z*a);
+		return res;
+	}
+
+	Vector3 operator / (float a) {
+		Vector3 res(x/a, y/a, z/a);
+		return res;
+	}
 
 };

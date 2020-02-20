@@ -49,6 +49,9 @@
     <Filter Include="Source Files\motorLog">
       <UniqueIdentifier>{0fe23ca0-4e3c-48c0-aadb-89729a60331e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\core\math">
+      <UniqueIdentifier>{e07ea943-09f8-49c4-825f-e7dcfcc8a914}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\InsectRobotSimulationApp.cpp">
@@ -111,6 +114,15 @@
     <ClCompile Include="..\src\ModelRenderer.cpp">
       <Filter>Source Files\view</Filter>
     </ClCompile>
+    <ClCompile Include="..\Arduino\libraries\InsectRobot\Matrix44.cpp">
+      <Filter>Source Files\core\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Arduino\libraries\InsectRobot\Vector3.cpp">
+      <Filter>Source Files\core\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Arduino\libraries\InsectRobot\Convertions.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -158,20 +170,23 @@
     <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelLeg.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector3.h">
-      <Filter>Source Files\core</Filter>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Quaternion.h">
+      <Filter>Source Files\core\math</Filter>
     </ClInclude>
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector2.h">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files\core\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector3.h">
+      <Filter>Source Files\core\math</Filter>
     </ClInclude>
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Vector4.h">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files\core\math</Filter>
     </ClInclude>
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Matrix44.h">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files\core\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\Arduino\libraries\InsectRobot\Quaternion.h">
-      <Filter>Source Files\core</Filter>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Convertions.h">
+      <Filter>Source Files\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

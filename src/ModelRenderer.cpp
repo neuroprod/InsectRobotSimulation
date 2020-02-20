@@ -1,4 +1,5 @@
 #include "ModelRenderer.h"
+#include "Convertions.h"
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -11,7 +12,7 @@ void ModelRenderer::drawHome()
 	{
 		
 		gl::pushMatrices();
-		gl::translate(model->legs[i]->homePoint);
+		gl::translate(Con::to(model->legs[i]->homePoint));
 		
 		gl::drawLine(vec2(0,10),vec2(0,-10));
 		gl::drawLine(vec2(10, 0), vec2(-10, 0));
@@ -38,8 +39,8 @@ void ModelRenderer::drawMove()
 
 
 
-		vec3 home = model->legs[i]->homePoint;
-		vec3 moveVec = model->legs[i]->targetMoveVec;
+		vec3 home = Con::to(model->legs[i]->homePoint);
+		vec3 moveVec = Con::to(model->legs[i]->targetMoveVec);
 
 		float startAngle = model->legs[i]->homeAngle; 
 		float radius = model->legs[i]->homeRadius;
@@ -101,12 +102,12 @@ void ModelRenderer::drawResolveJoint1(NodeRef root)
 		gl::drawCoordinateFrame(20);
 
 		gl::pushMatrices();
-		gl::translate(vec3(model->legs[i]->targetPointLocal));
+		gl::translate(vec3(Con::to(model->legs[i]->targetPointLocal)));
 		gl::drawCoordinateFrame(20);
 		gl::popMatrices();
 
 		gl::color(0, 1, 0);
-		gl::drawLine(vec3(0, 0, 0), model->legs[i]->targetPointLocalFlat);
+		gl::drawLine(vec3(0, 0, 0), Con::to(model->legs[i]->targetPointLocalFlat));
 		gl::color(1, 1,1);
 		gl::drawLine(vec3(0, 0, 0), vec3(0, 0, 150));
 	
@@ -123,7 +124,7 @@ void ModelRenderer::drawResolveJoint23(NodeRef root)
 		gl::color(1, 1, 1);
 		gl::pushMatrices();
 	//	gl::setModelMatrix(root->children[i]->globalMatrix);
-		gl::setModelMatrix(model->legs[i]->shoulder1GlobalMatrix);
+		gl::setModelMatrix(Con::to(model->legs[i]->shoulder1GlobalMatrix));
 		gl::drawCoordinateFrame(20);
 
 	
@@ -132,18 +133,18 @@ void ModelRenderer::drawResolveJoint23(NodeRef root)
 	
 		gl::pushMatrices();
 		gl::rotate(3.1415 / 2, vec3(1, 0, 0));
-		gl::drawStrokedCircle(model->legs[i]->posTarget,  model->legs[i]->lowerLegSize);
-		gl::drawStrokedCircle(model->legs[i]->posJoint, model->legs[i]->upperLegSize);
+		gl::drawStrokedCircle(Con::to(model->legs[i]->posTarget),  model->legs[i]->lowerLegSize);
+		gl::drawStrokedCircle(Con::to(model->legs[i]->posJoint), model->legs[i]->upperLegSize);
 
-		gl::drawLine(model->legs[i]->posTarget, model->legs[i]->posJoint);
-		gl::drawLine(model->legs[i]->solution1, model->legs[i]->solution2);
+		gl::drawLine(Con::to(model->legs[i]->posTarget), Con::to(model->legs[i]->posJoint));
+		gl::drawLine(Con::to(model->legs[i]->solution1), Con::to(model->legs[i]->solution2));
 		gl::color(1, 0, 0);
-		gl::drawSolidCircle(model->legs[i]->solution1, 3);
-		gl::drawSolidCircle(model->legs[i]->solution2, 3);
+		gl::drawSolidCircle(Con::to(model->legs[i]->solution1), 3);
+		gl::drawSolidCircle(Con::to(model->legs[i]->solution2), 3);
 		
 		gl::color(0, 1, 0);
-		gl::drawLine(model->legs[i]->solution, model->legs[i]->posJoint);
-		gl::drawLine(model->legs[i]->posTarget, model->legs[i]->solution);
+		gl::drawLine(Con::to(model->legs[i]->solution), Con::to(model->legs[i]->posJoint));
+		gl::drawLine(Con::to(model->legs[i]->posTarget), Con::to(model->legs[i]->solution));
 		
 		gl::popMatrices();
 		
