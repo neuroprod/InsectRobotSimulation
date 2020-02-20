@@ -16,7 +16,7 @@ public:
 	void setBase(Vector3 position, Vector3 rotation, ModelConfig * config, bool flip)
 	{
 		mFlip = flip;
-		Matrix44  baseMatrix = Matrix44();
+		baseMatrix = Matrix44();
 		baseMatrix = Matrix44::translate(baseMatrix, position);
 		baseMatrix = Matrix44::rotate(baseMatrix, rotation.x, Vector3(1, 0, 0));
 		baseMatrix = Matrix44::rotate(baseMatrix, rotation.y, Vector3(0, 1, 0));
@@ -153,6 +153,7 @@ public:
 		//***show resolve Joint 1 in UI***
 
 		Matrix44 inversMatrix = Matrix44::inverse(rootMatrix*baseMatrix);
+
 		//transform targetpoint to joint1 local space
 		targetPointLocal = inversMatrix*Vector4(targetPoint.x, targetPoint.y, targetPoint.z, 1);
 

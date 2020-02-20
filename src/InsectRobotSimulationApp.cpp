@@ -67,7 +67,7 @@ class InsectRobotSimulationApp : public App {
 
 	vector<LegRef> legs;
 	bool useIK=true;
-	bool useWalk =false;
+	bool useWalk =true;
 	int statsSelection1 = 0;
 	int statsType1 = 0;
 	int statsSelection2 = 3;
@@ -76,7 +76,7 @@ class InsectRobotSimulationApp : public App {
 
 	int8_t input[16];
 	int8_t inByte;
-	int inCount;
+	int inCount=0;
 	SerialRef	mSerialIn;
 
 	SerialRef	mSerialOut;
@@ -243,6 +243,7 @@ void InsectRobotSimulationApp::updateSerial()
 			}
 			else
 			{
+
 				input[inCount] = currentByte;
 				
 				inCount++;
