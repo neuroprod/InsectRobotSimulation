@@ -83,7 +83,7 @@ public:
 
 	
 		currentTime += delta/mControl->timeScale;
-		
+	
 		if (isHome) 
 		{
 			if (mControl->moveDistance != 0 || mControl->turnAngle != 0) 
@@ -198,6 +198,7 @@ public:
 		}
 	
 	}
+
 	bool startHome =false;
 	bool isHome = false;
 	float currentTime =0;

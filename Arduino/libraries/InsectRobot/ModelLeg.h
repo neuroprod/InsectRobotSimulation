@@ -41,10 +41,10 @@ public:
 	}
 	int state = 0;
 
-	float homeAngle;
-	float homeRadius;
+	float homeAngle=0;
+	float homeRadius=0;
 
-	float oldDistance;
+	float oldDistance=0;
 
 
 
@@ -53,8 +53,8 @@ public:
 
 
 
-	Vector3 newMoveVec;
-	float newTurnAngle;
+	Vector3 newMoveVec = Vector3();
+	float newTurnAngle=0;
 	Vector3 oldMoveVec = Vector3();
 	float oldTurnAngle = 0;
 

@@ -67,7 +67,7 @@ class InsectRobotSimulationApp : public App {
 
 	vector<LegRef> legs;
 	bool useIK=true;
-	bool useWalk =true;
+	bool useWalk =false;
 	int statsSelection1 = 0;
 	int statsType1 = 0;
 	int statsSelection2 = 3;
