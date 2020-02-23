@@ -44,5 +44,5 @@ public:
 		Vector3 res(x/a, y/a, z/a);
 		return res;
 	}
-
+	
 };

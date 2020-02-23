@@ -410,7 +410,7 @@ void InsectRobotSimulationApp::updateGui()
 			for (int i = 0; i < 6; i++)
 			{
 				string name = legs[i]->mName;
-//				ImGui::SliderFloat3(name.c_str(), &model.legs[i]->targetPoint[0], -300,300);
+				ImGui::SliderFloat3(name.c_str(), &model.legs[i]->targetPoint.x, -300,300);
 
 			}
 		
