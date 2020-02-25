@@ -19,11 +19,11 @@ public:
 
 
 	float frontLegAngle =3.1415/4 ;
-	Vector3 frontLegStart = Vector3(70, 0, 80);
+	Vector3 frontLegStart = Vector3(70, 0, 50);
 
 	float middleLegAngle = 0;
-	Vector3 middleLegStart = Vector3(0, 0, 100);
+	Vector3 middleLegStart = Vector3(0, 0, 70);
 
 	float backLegAngle = -3.1415 / 4;
-	Vector3 backLegStart = Vector3(-70, 0, 80);
+	Vector3 backLegStart = Vector3(-70, 0, 50);
 };
