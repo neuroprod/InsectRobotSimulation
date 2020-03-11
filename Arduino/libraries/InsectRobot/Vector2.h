@@ -16,6 +16,10 @@ public:
 	
 
 	};
+	float length()
+	{
 
+		return sqrt(x*x + y*y );
+	}
 
 };
