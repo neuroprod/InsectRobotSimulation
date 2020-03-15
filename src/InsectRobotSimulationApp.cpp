@@ -19,6 +19,8 @@
 
 #include "Convertions.h"
 #include "cinder/Log.h"
+#include "Animator.h"
+
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -63,11 +65,16 @@ class InsectRobotSimulationApp : public App {
 	DebugRenderer renderer;
 
 	Model model;
+	Animator animator;
 	double previousTime;
 
 	vector<LegRef> legs;
 	bool useIK=true;
 	bool useWalk =false;
+
+	bool sleep =false;
+
+
 	int statsSelection1 = 0;
 	int statsType1 = 0;
 	int statsSelection2 = 3;
@@ -80,6 +87,7 @@ class InsectRobotSimulationApp : public App {
 	SerialRef	mSerialIn;
 
 	SerialRef	mSerialOut;
+	
 };
 
 void InsectRobotSimulationApp::setup()
@@ -133,10 +141,15 @@ void InsectRobotSimulationApp::setup()
 	buildRobot();
 
 	
+	model.registerAnime(&animator);
+	control.registerAnime(&animator);
+
+
 	renderer.setup(root,&model);
 	controlGui.setup(&control);
 	configGui.setup(&config);
 
+	
 }
 void InsectRobotSimulationApp::buildRobot() 
 {
@@ -202,13 +215,18 @@ void InsectRobotSimulationApp::update()
 	float delta =  currentTime-previousTime;
 
 	previousTime = currentTime;
+	animator.update(delta);
 	if (useWalk && useIK) {
 		model.update(delta);
 	}
 	else 
 	{
+
 		model.updateIK();
 	}
+
+
+
 	root->baseMatrix = Con::to(model.rootMatrix);
 	for (int i = 0; i < 6; i++) 
 	{
@@ -247,7 +265,7 @@ void InsectRobotSimulationApp::updateSerial()
 				input[inCount] = currentByte;
 				
 				inCount++;
-				if (inCount == 14)
+				if (inCount == 17)
 				{
 					U u;
 					u.byte.c1 = input[0];
@@ -387,6 +405,20 @@ void InsectRobotSimulationApp::updateGui()
 		ui::Checkbox("use IK", &useIK); 
 		ui::SameLine();
 		ui::Checkbox("use Walk", &useWalk);
+		ui::SameLine();
+		if (ui::Checkbox("sleep", &sleep)) 
+		{
+			
+			if (sleep) 
+			{
+				animator.tween(&control.rootHeight, 10, 1, 0);
+			}
+			else 
+			{
+				animator.tween(&control.rootHeight,100, 1, 0);
+			}
+		
+		};
 		if (!useIK) {
 			for (int i = 0; i < 6; i++)
 			{

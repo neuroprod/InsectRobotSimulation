@@ -49,6 +49,9 @@
     <Filter Include="Source Files\core\math">
       <UniqueIdentifier>{e07ea943-09f8-49c4-825f-e7dcfcc8a914}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\core\animation">
+      <UniqueIdentifier>{95bdcd90-e64d-474e-9e66-9d58c993dfbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\InsectRobotSimulationApp.cpp">
@@ -178,6 +181,15 @@
     </ClInclude>
     <ClInclude Include="..\src\Convertions.h">
       <Filter>Source Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Animator.h">
+      <Filter>Source Files\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Anime.h">
+      <Filter>Source Files\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Anime3.h">
+      <Filter>Source Files\core\animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

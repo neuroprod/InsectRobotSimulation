@@ -7,7 +7,7 @@
 #include "ModelLeg.h"
 #include "Vector3.h"
 #include "Matrix44.h"
-
+#include "Animator.h"
 class Model 
 {
 
@@ -73,6 +73,14 @@ public:
 
 	
 
+	}
+	void registerAnime(Animator *animator)
+	{
+
+		for (int i = 0; i < 6; i++)
+		{
+			animator->reg(&legs[i]->targetPoint);
+		}
 	}
 
 

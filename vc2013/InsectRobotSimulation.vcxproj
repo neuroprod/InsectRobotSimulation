@@ -127,6 +127,9 @@
     <ClCompile Include="..\src\Node.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Animator.h" />
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Anime.h" />
+    <ClInclude Include="..\Arduino\libraries\InsectRobot\Anime3.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Matrix44.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\Model.h" />
     <ClInclude Include="..\Arduino\libraries\InsectRobot\ModelConfig.h" />

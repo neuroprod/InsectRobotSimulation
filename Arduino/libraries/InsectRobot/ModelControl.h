@@ -1,9 +1,10 @@
 #pragma once
+#include "Animator.h"
 class ModelControl
 {
 public:
 	bool isDirty = true;
-	float rootHeight=130;
+	float rootHeight=80;
 	float rootOffX = 0;
 	float rootOffZ= 0;
 
@@ -17,8 +18,21 @@ public:
 	float moveDistance =0;
 	float timeScale = 1;
 
-	
+	int state = 0;
 
+
+
+	void registerAnime(Animator *animator)
+	{
+		animator->reg(&rootHeight);
+		animator->reg(&rootOffX);
+		animator->reg(&rootOffZ);
+
+		animator->reg(&rootRotX);
+		animator->reg(&rootRotY);
+		animator->reg(&rootRotZ);
+
+	}
 
 };
 
