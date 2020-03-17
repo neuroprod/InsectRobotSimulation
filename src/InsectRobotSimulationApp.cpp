@@ -348,17 +348,41 @@ void InsectRobotSimulationApp::updateSerial()
 					{
 						if (!btn3) {
 							animator.tween(&config.stepHeight, 30.f, 1.f);
-							animator.tween(&control.rootHeight, 80.f, 1.f);
+							animator.tween(&control.rootHeight, control.rootHeightLow, 1.f);
 						}
 						else 
 						{
-							animator.tween(&config.stepHeight, 100.f, 1.f);
-							animator.tween(&control.rootHeight, 160.f, 1.f);
+							animator.tween(&config.stepHeight, 80.f, 1.f);
+							animator.tween(&control.rootHeight, control.rootHeightHigh, 1.f);
 						
 						}
 					}
-
-
+					if (btnLChange) 
+					{
+						if (!btnL) 
+						{
+							if (!btn3) {
+								animator.tween(&control.rootHeight, control.rootHeightLow, 1.f);
+							}
+							else
+							{
+								animator.tween(&control.rootHeight, control.rootHeightHigh, 1.f);
+							}
+							animator.tween(&control.rootOffX,0, 1.f);
+							animator.tween(&control.rootOffZ, 0, 1.f);
+						}
+					}
+					if (btnRChange)
+					{
+						if (!btnR)
+						{
+						
+							animator.tween(&control.rootRotX, 0, 1.f);
+							animator.tween(&control.rootRotY, 0, 1.f);
+							animator.tween(&control.rootRotZ, 0, 1.f);
+						}
+					}
+					
 
 
 					if (!btn1 && !btn2 && !btnL && !btnR) {

@@ -5,6 +5,8 @@ class ModelControl
 public:
 	bool isDirty = true;
 	float rootHeight=80;
+	float rootHeightLow = 80;
+	float rootHeightHigh = 160;
 	float rootOffX = 0;
 	float rootOffZ= 0;
 
