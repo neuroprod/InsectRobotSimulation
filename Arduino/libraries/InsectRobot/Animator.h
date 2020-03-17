@@ -8,7 +8,7 @@ class Animator
 public:
 	Animator() {};
 
-	Anime  animes[6];
+	Anime  animes[7];
 	int animeCount = 0;
 
 	Anime3  animes3[6];

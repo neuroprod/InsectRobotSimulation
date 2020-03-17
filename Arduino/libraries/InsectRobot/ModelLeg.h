@@ -34,11 +34,12 @@ public:
 		upperLegSize = config->upperLegSize;
 		lowerLegSize = config->lowerLegSize;
 
-		stepHeight = config->stepHeight;
+		stepHeight = &config->stepHeight;
 		stepPower = config->stepPower;
-
+	
 
 	}
+
 	int state = 0;
 
 	float homeAngle=0;
@@ -92,6 +93,7 @@ public:
 	void resolve(Matrix44 &rootMatrix, float time)
 	{
 		
+		
 		float y = 0;
 		
 
@@ -101,12 +103,12 @@ public:
 			if (time < 0.5)
 			{
 				float stepr = 1 - time * 2;
-				y = (1 - pow(stepr, stepPower))* stepHeight;
+				y = (1 - pow(stepr, stepPower))* (*stepHeight);
 			}
 			if (time >= 0.5)
 			{
 				float stepr = (time - 0.5) * 2;
-				y = (1 - pow(stepr, stepPower)) * stepHeight;
+				y = (1 - pow(stepr, stepPower)) * (*stepHeight);
 			}
 
 		}
@@ -253,7 +255,7 @@ public:
 	float shoulder3Angle = 0;
 	float upperLegSize;
 	float lowerLegSize;
-	float stepHeight;
+	float * stepHeight;
 	int stepPower;
 	bool mFlip = false;
 

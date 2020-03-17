@@ -81,13 +81,20 @@ class InsectRobotSimulationApp : public App {
 	int statsType2 = 0;
 	bool showStats = true;
 
-	int8_t input[16];
+	int8_t input[20];
 	int8_t inByte;
 	int inCount=0;
 	SerialRef	mSerialIn;
 
 	SerialRef	mSerialOut;
 	
+
+	bool btnLPrev = false;
+	bool btnRPrev = false;
+
+	bool btn1Prev = false;
+	bool btn2Prev = false;
+	bool btn3Prev = false;
 };
 
 void InsectRobotSimulationApp::setup()
@@ -143,7 +150,7 @@ void InsectRobotSimulationApp::setup()
 	
 	model.registerAnime(&animator);
 	control.registerAnime(&animator);
-
+	animator.reg(&config.stepHeight);
 
 	renderer.setup(root,&model);
 	controlGui.setup(&control);
@@ -251,6 +258,7 @@ void InsectRobotSimulationApp::updateSerial()
 {
 	if (mSerialIn) 
 	{
+	
 		while (mSerialIn->getNumBytesAvailable() > 0)
 		{
 			int8_t currentByte = mSerialIn->readByte();
@@ -271,7 +279,7 @@ void InsectRobotSimulationApp::updateSerial()
 					u.byte.c1 = input[0];
 					u.byte.c2 = input[1];
 					float lX = u.s;
-				
+
 					u.byte.c1 = input[2];
 					u.byte.c2 = input[3];
 					float lY = u.s;
@@ -292,23 +300,110 @@ void InsectRobotSimulationApp::updateSerial()
 					u.byte.c2 = input[11];
 					float rZ = u.s;
 
-					vec2 r = vec2(rX, rY);
-					float size =min(1000.f, glm::length(r))/1000.f;
-					float angle = atan2(r.x, r.y);
 
-					control.isDirty = true;
-					control.moveAngle = angle;
-					control.moveDistance = size * 45;
-					control.turnAngle = rZ / 1000.0f *0.13f;
-					if(lY<0){
-						control.timeScale =1+ lY / -500;
-					}
-					else {
-						control.timeScale =1.f - (lY /1000.f*0.8f);
-					}
+					bool btnL = input[12];
+					bool btnR = input[13];
 
+					bool btn1 = input[14];
+					bool btn2 = input[15];
+					bool btn3 = input[16];
+
+
+					bool btnLChange = false;
+					if (btnLPrev != btnL)
+					{
+						btnLChange = true;
+						btnLPrev = btnL;
+					}
 					
+					bool btnRChange = false;
+					if (btnRPrev != btnR)
+					{
+						btnRChange = true;
+						btnRPrev = btnR;
+					}
 
+					bool btn1Change = false;
+					if (btn1Prev != btn1)
+					{
+						btn1Change = true;
+						btn1Prev = btn1;
+					}
+					
+					bool btn2Change = false;
+					if (btn2Prev != btn2)
+					{
+						btn2Change = true;
+						btn2Prev = btn2;
+					}
+
+					bool btn3Change = false;
+					if (btn3Prev != btn3)
+					{
+						btn3Change = true;
+						btn3Prev = btn3;
+					}
+
+					if (btn3Change) 
+					{
+						if (!btn3) {
+							animator.tween(&config.stepHeight, 30.f, 1.f);
+							animator.tween(&control.rootHeight, 80.f, 1.f);
+						}
+						else 
+						{
+							animator.tween(&config.stepHeight, 100.f, 1.f);
+							animator.tween(&control.rootHeight, 160.f, 1.f);
+						
+						}
+					}
+
+
+
+
+					if (!btn1 && !btn2 && !btnL && !btnR) {
+						useWalk = true;
+						vec2 r = vec2(rX, rY);
+						float size = min(1000.f, glm::length(r)) / 1000.f;
+						float angle = atan2(r.x, r.y);
+
+						control.isDirty = true;
+						control.moveAngle = angle;
+						control.moveDistance = size * 45;
+						control.turnAngle = rZ / 1000.0f *0.13f;
+						if (lY < 0) {
+							control.timeScale = 1 + lY / -500;
+						}
+						else {
+							control.timeScale = 1.f - (lY / 1000.f*0.8f);
+						}
+
+
+					}
+					else if (btnL) 
+					{
+						useWalk = false;
+
+						control.rootHeight = (lZ/1000.f) *80.f +80.f;
+						control.rootOffX= (lX/1000.f)*50.f;
+						control.rootOffZ= (lY/1000.f) *40.f;
+
+
+					}
+					else if (btnR)
+					{
+						useWalk = false;
+
+						control.rootRotX = (rZ / 3000.f);
+						control.rootRotY = (rX / 3000.f);
+						control.rootRotZ = (rY / 3000.f);
+					}
+					else
+					{
+					
+						useWalk = false;
+					
+					}
 					
 
 
