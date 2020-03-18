@@ -271,7 +271,7 @@ void updateSerial() {
             }
             else
             {
-              animator.tween(&mControl.rootHeight,mControl.rootHeightHigh, 1.f);
+              animator.tween(&mControl.rootHeight, mControl.rootHeightHigh, 1.f);
             }
             animator.tween(&mControl.rootOffX, 0, 1.f);
             animator.tween(&mControl.rootOffZ, 0, 1.f);
@@ -287,6 +287,30 @@ void updateSerial() {
             animator.tween(&mControl.rootRotZ, 0, 1.f);
           }
         }
+
+        if (btn2Change)
+        {
+          animator.tween(&mControl.rootHeight, mControl.rootHeightLow, 1.f);
+          animator.tween(&mControl.rootOffX, 0, 1.f);
+          animator.tween(&mControl.rootOffZ, 0, 1.f);
+
+          animator.tween(&mControl.rootRotX, 0, 1.f);
+          animator.tween(&mControl.rootRotY, 0, 1.f);
+          animator.tween(&mControl.rootRotZ, 0, 1.f);
+
+          model.animeHome(&animator);
+          if (btn2)
+          {
+            animator.tween(&mControl.rootOffX, -64, 1.f);
+            animator.tween(&mControl.rootRotZ, 0.21, 1.f);
+            animator.tween(&model.FL.targetPoint, 140, 184, -60, 1.f);
+            animator.tween(&model.FR.targetPoint, 140, 184, 60, 1.f);
+
+          }
+
+        }
+
+
         if (!btn1 && !btn2 && !btnL && !btnR) {
           useWalk = true;
           Vector2 r = Vector2(rX, rY);
@@ -302,6 +326,24 @@ void updateSerial() {
           }
           else {
             mControl.timeScale = 1.f - (lY / 1000.f * 0.8f);
+          }
+        } else if (btn2)
+        {
+
+          if (!animator.isActive())
+          {
+            if (rX < 0)
+            {
+              model.FL.targetPoint.x = 140 + (-rX / 1000 * 60);
+              model.FR.targetPoint.x = 140;
+            }
+            else
+            {
+              model.FL.targetPoint.x = 140 ;
+              model.FR.targetPoint.x = 140 + (rX / 1000 * 60);
+
+            }
+
           }
         }
         else if (btnL)

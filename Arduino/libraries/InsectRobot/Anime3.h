@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector3.h"
+
 class Anime3
 {
 public:
@@ -29,7 +30,9 @@ public:
 		//tween
 		else
 		{
+			
 			float val = easeInOutQuad(time);
+			
 			target->x = startValX + changeValX*val;
 			target->y = startValY + changeValY*val;
 			target->z = startValZ + changeValZ*val;
@@ -49,7 +52,7 @@ public:
 		totalTime = time;
 		startValX = target->x;
 		changeValX = endValX - startValX;
-
+		
 		startValY = target->y;
 		changeValY = endValY - startValY;
 

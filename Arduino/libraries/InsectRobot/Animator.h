@@ -2,6 +2,7 @@
 #include "Vector3.h"
 #include "Anime.h"
 #include "Anime3.h"
+
 class Animator 
 {
 
@@ -21,7 +22,8 @@ public:
 	}
 	void reg(Vector3 *target)
 	{
-		animes3[animeCount].target = target;
+		animes3[anime3Count].target = target;
+		
 		anime3Count++;
 
 	}
@@ -42,9 +44,10 @@ public:
 	void tween(Vector3 *target, float endValX, float endValY, float endValZ, float time, float delay = 0)
 	{
 
+	
 		for (int i = 0; i < anime3Count; i++)
 		{
-
+			
 			if (animes3[i].target == target)
 			{
 
@@ -52,6 +55,29 @@ public:
 				return;
 			}
 		}
+	}
+	bool isActive() 
+	{
+		for (int i = 0; i < animeCount; i++)
+		{
+			if (animes[i].isActive)
+			{
+				return true;
+
+			}
+
+		}
+		for (int i = 0; i < anime3Count; i++)
+		{
+			if (animes3[i].isActive)
+			{
+				return true;
+
+			}
+
+		}
+	
+		return false;
 	}
 	void update(float delta) 
 	{

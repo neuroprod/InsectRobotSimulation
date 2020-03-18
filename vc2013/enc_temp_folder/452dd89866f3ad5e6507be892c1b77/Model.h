@@ -80,7 +80,7 @@ public:
 
 		for (int i = 0; i < 6; i++)
 		{
-		
+			ci::app::console() << &legs[i]->targetPoint << std::endl;
 			animator->reg(&legs[i]->targetPoint);
 		}
 	}

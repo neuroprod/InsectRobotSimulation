@@ -383,6 +383,30 @@ void InsectRobotSimulationApp::updateSerial()
 						}
 					}
 					
+					//oofX-64, rotZ 0.21  FR 140-200,  184, 70  FL140-200,  184, -70 
+
+					if (btn2Change) 
+					{
+						animator.tween(&control.rootHeight, control.rootHeightLow, 1.f);
+						animator.tween(&control.rootOffX, 0, 1.f);
+						animator.tween(&control.rootOffZ, 0, 1.f);
+
+						animator.tween(&control.rootRotX, 0, 1.f);
+						animator.tween(&control.rootRotY, 0, 1.f);
+						animator.tween(&control.rootRotZ, 0, 1.f);
+					
+						model.animeHome(&animator);
+						if (btn2) 
+						{
+							animator.tween(&control.rootOffX, -64, 1.f);
+							animator.tween(&control.rootRotZ, 0.21, 1.f);
+							animator.tween(&model.FL.targetPoint, 140, 184, -60,1.f);
+							animator.tween(&model.FR.targetPoint, 140, 184, 60,1.f);
+
+						}
+					
+					}
+
 
 
 					if (!btn1 && !btn2 && !btnL && !btnR) {
@@ -404,6 +428,25 @@ void InsectRobotSimulationApp::updateSerial()
 
 
 					}
+					else if (btn2) 
+					{
+					
+						if (!animator.isActive()) 
+						{
+							if (rX< 0)
+							{
+								model.FL.targetPoint.x = 140 + (-rX / 1000 * 60);
+								model.FR.targetPoint.x = 140;
+							}
+							else 
+							{
+								model.FL.targetPoint.x = 140 ;
+								model.FR.targetPoint.x = 140 + (rX / 1000 * 60);
+							
+							}
+						
+						}
+					}
 					else if (btnL) 
 					{
 						useWalk = false;
@@ -422,6 +465,7 @@ void InsectRobotSimulationApp::updateSerial()
 						control.rootRotY = (rX / 3000.f);
 						control.rootRotZ = (rY / 3000.f);
 					}
+				
 					else
 					{
 					
