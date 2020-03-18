@@ -55,7 +55,7 @@ bool btn3Prev = false;
 
 void setup() {
 
-  //Serial.begin(115200);
+ 
   Serial2.begin(57600);
   delay(1000);
 
@@ -297,21 +297,21 @@ void updateSerial() {
           animator.tween(&mControl.rootRotX, 0, 1.f);
           animator.tween(&mControl.rootRotY, 0, 1.f);
           animator.tween(&mControl.rootRotZ, 0, 1.f);
-
+ 
           model.animeHome(&animator);
           if (btn2)
           {
             animator.tween(&mControl.rootOffX, -64, 1.f);
             animator.tween(&mControl.rootRotZ, 0.21, 1.f);
-            animator.tween(&model.FL.targetPoint, 140, 184, -60, 1.f);
-            animator.tween(&model.FR.targetPoint, 140, 184, 60, 1.f);
+            animator.tween(&model.FL.targetPoint, 140, 184, -60, 0.5f,1.0f);
+            animator.tween(&model.FR.targetPoint, 140, 184, 60, 0.5f,1.5f);
 
           }
 
         }
 
 
-        if (!btn1 && !btn2 && !btnL && !btnR) {
+        if (!btn1 && !btn2 && !btnL && !btnR && !animator.isActive()) {
           useWalk = true;
           Vector2 r = Vector2(rX, rY);
           float size = std::min(1000.f, r.length() / 1000.f);
@@ -329,7 +329,7 @@ void updateSerial() {
           }
         } else if (btn2)
         {
-
+          useWalk = false;
           if (!animator.isActive())
           {
             if (rX < 0)
