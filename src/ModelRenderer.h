@@ -10,6 +10,7 @@ public:
 	Model * model;
 	void drawHome();
 	void drawMove();
+	void drawTarget(NodeRef root);
 	void drawResolveJoint1(NodeRef root);
 	void drawResolveJoint23(NodeRef root);
 

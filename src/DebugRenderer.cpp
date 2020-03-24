@@ -101,7 +101,7 @@ void DebugRenderer::draw()
 	if(showMoveVec)modelRenderer.drawMove();
 	if (showJoint1)modelRenderer.drawResolveJoint1(mRoot);
 	if (showJoint23)modelRenderer.drawResolveJoint23(mRoot);
-
+	if(showTarget)modelRenderer.drawTarget(mRoot);
 	if (showFloor) {
 		MP()->mGlslShadowFloor->uniform("uShadowMap", 0);
 		MP()->mGlslShadowFloor->uniform("uLightPos", mLightPos);
@@ -145,4 +145,5 @@ void DebugRenderer::showRenderWindow(float fps)
 		ui::Checkbox("show moveVec", &showMoveVec);
 		ui::Checkbox("show Resolve Joint1", &showJoint1);
 		ui::Checkbox("show Resolve Joint23", &showJoint23);
+		ui::Checkbox("show Target", &showTarget);
 }

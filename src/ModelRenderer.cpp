@@ -114,6 +114,25 @@ void ModelRenderer::drawResolveJoint1(NodeRef root)
 		gl::popMatrices();
 	}
 }
+void ModelRenderer::drawTarget(NodeRef root)
+{
+
+	gl::lineWidth(2);
+	for (int i = 0; i < 6; i++)
+	{
+	
+
+		gl::pushMatrices();
+		gl::translate(vec3(Con::to(model->legs[i]->targetPoint)));
+		gl::drawCoordinateFrame(20);
+		gl::popMatrices();
+
+	
+
+		
+	}
+	gl::lineWidth(1);
+}
 
 void ModelRenderer::drawResolveJoint23(NodeRef root)
 {

@@ -44,4 +44,5 @@ public:
 	bool showJoint23 = false;
 	bool showHomePos = false;
 	bool showMoveVec = false;
+	bool showTarget = false;
 };
