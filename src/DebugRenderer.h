@@ -35,6 +35,7 @@ public:
 	float cameraDistance =1500;
 	float cameraTheta = 1.041;
 	float cameraPhi = 0.940;
+	float yOff = 0;
 	bool drawHome = true;
 	bool drawMove = true;
 	bool showMesh = true;

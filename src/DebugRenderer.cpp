@@ -121,7 +121,7 @@ void DebugRenderer::updateCamera()
 	float z = cameraDistance * sinf(cameraTheta)*sinf(cameraPhi);
 	float y = cameraDistance * cosf(cameraTheta);
 
-	mCam.lookAt(vec3(x, y, z), vec3(0,0,0));
+	mCam.lookAt(vec3(x, y+yOff, z), vec3(0, yOff,0));
 	mCam.setPerspective(30, getWindowAspectRatio(), 100, 4000);
 }
 
@@ -137,6 +137,8 @@ void DebugRenderer::showRenderWindow(float fps)
 		if (ui::DragFloat("Camera Theta", &cameraTheta,0.01,0.001,3.1415/2)) updateCamera();
 		if (ui::DragFloat("Camera Phi", &cameraPhi, 0.01, -3.1415, 3.1415)) updateCamera();
 		if (ui::DragFloat("Camera distance", &cameraDistance, 5, 500, 2000)) updateCamera();
+		if (ui::DragFloat("yOff", &yOff, 1, -200, 200)) updateCamera();
+	
 		ui::Checkbox("show Mesh", &showMesh);
 		ui::Checkbox("show Floor", &showFloor);
 		if (ui::Button("reset floor")) { floorMatrix = mat4(); }
