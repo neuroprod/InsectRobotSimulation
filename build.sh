@@ -4,7 +4,7 @@
 set -e
 
 THIS_PATH=$(pwd)
-CINDER_PATH=${THIS_PATH}/cinder
+CINDER_PATH=${THIS_PATH}/Cinder
 exitWithError() {
   echo "Error:" "$@" >&2
   exit 1
