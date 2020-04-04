@@ -5,6 +5,9 @@
 .bash_history
 .viminfo
 
+.vscode
+/Cinder
+
 assets/screens
 
 # User-specific files

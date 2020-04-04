@@ -549,7 +549,8 @@ void InsectRobotSimulationApp::updateGui()
 		}
 	}
 	if (showDemoWindow) {
-		ui::ShowDemoWindow();
+		// This require to manually change CMakeLists for Cinder-ImGui to include imgui_demo.cpp
+		// ui::ShowDemoWindow();
 	}
 	if (showRenderWindow) {
 		renderer.showRenderWindow(getAverageFps());
