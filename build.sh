@@ -12,7 +12,7 @@ exitWithError() {
 
 checkRequiredTool() {
   for tool in git make cmake ; do
-    command -v git &> /dev/null || exitWithError "Missing required tool ${tool}"
+    command -v "${tool}" &> /dev/null || exitWithError "Missing required tool ${tool}"
   done
 }
 
