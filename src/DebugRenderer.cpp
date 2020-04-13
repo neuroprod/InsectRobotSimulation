@@ -88,7 +88,7 @@ void DebugRenderer::draw()
 
 
 	MP()->mGlslShadow->uniform("uShadowMap", 0);
-	MP()->mGlslShadow->uniform("uLightPos", mLightPos);
+	MP()->mGlslShadow->uniform("uLightPos", mvLightPos);
 	MP()->mGlslShadow->uniform("uShadowMatrix", shadowMatrix);
 	MP()->mGlslShadow->uniform("alpha", 1.f);
 
@@ -104,7 +104,7 @@ void DebugRenderer::draw()
 	if(showTarget)modelRenderer.drawTarget(mRoot);
 	if (showFloor) {
 		MP()->mGlslShadowFloor->uniform("uShadowMap", 0);
-		MP()->mGlslShadowFloor->uniform("uLightPos", mLightPos);
+		MP()->mGlslShadowFloor->uniform("uLightPos", mvLightPos);
 		MP()->mGlslShadowFloor->uniform("uShadowMatrix", shadowMatrix);
 		MP()->mGlslShadowFloor->uniform("alpha", 1.f);
 		gl::pushMatrices();
